@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+#menu{
+	width:50px;
+	height: 50px;
+	border: 2px solid #ddd;
+	border-radius: 50%;
+	background: url(./images/menu.png) no-repeat;
+	background-size: cover;	
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	transition: 2s;
+	z-index: 1;
+}
+.list{
+	transition: 2s;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	border:2px solid #ddd;
+	position: absolute;
+	z-index: 0;
+	top: 0px;
+	left: 0px;
+}
+ div:nth-of-type(2){
+	background:url(./images/book.png) no-repeat;
+	background-size: contain;
+
+}
+ div:nth-of-type(3){
+	background:url(./images/show.png) no-repeat;
+	background-size: contain;
+
+}
+div:nth-of-type(4){
+	background:url(./images/active.png) no-repeat;
+	background-size: contain;
+
+}
+div:nth-of-type(5){
+	background:url(./images/refresh.png) no-repeat;
+	background-size: contain;
+
+}
+
+
+</style>	
+</head>
+<body>
+	<div id="menu"></div>
+	<div class="list"> </div>
+	<div class="list"> </div>
+	<div class="list"> </div>
+	<div class="list"> </div>
+</body>
+
+<script>
+	var odiv=document.getElementById("menu");
+	var adiv=document.getElementsByClassName("list");
+	var onoff=true;
+
+
+	odiv.onclick=function(){
+		if (onoff) {
+			this.style.WebkitTransform="rotate(720deg)";
+            for(var i=0;i<adiv.length;i++)
+		{
+			var num=tonum(90/(adiv.length-1)*i,120);
+			adiv[i].style.top=num.hei+"px";
+			adiv[i].style.left=num.wid+"px";
+			adiv[i].style.transition=2+i*0.2+"s";//最大的i为3。
+			
+			adiv[i].style.WebkitTransform="rotate(720deg)"
+		}
+
+		}
+		else{this.style.WebkitTransform="rotate(0deg)";
+
+            for(var i=0;i<adiv.length;i++)
+		{
+			adiv[i].style.top="0px";
+			adiv[i].style.left="0px";
+			adiv[i].style.transition=2+(adiv.length-1-i)*0.2+"s";//最大的adiv.length-1-i也为3。
+			adiv[i].style.WebkitTransform="rotate(0deg)";
+		}
+
+
+	}
+		onoff=!onoff;
+		
+	}
+
+
+	for(var i=0;i<adiv.length;i++)
+	{
+	adiv[i].onclick=function(){
+	this.style.transition="0.5s";
+    this.style.opacity="0.2";
+    that=this;
+    this.style.WebkitTransform="scale(1.5)";
+    addTransitionEnd(this,end);
+
+
+		}
+	}
+
+
+
+    function end(){   	
+    	// this.style.transition="0.5s";
+    	that.style.opacity="1";
+    	that.style.WebkitTransform="scale(1)";//此条语句覆盖了原来的transform。
+    	 removeTransitionEnd(this,end);
+    	 this.style.WebkitTransform="rotate(720deg)";//还原webkit-transform的值，为了在点击home时它能和原来一样转动。
+    }
+
+    function tonum(ideg,ir){
+   var hei=parseInt(Math.sin(ideg/180*Math.PI)*ir);
+   var wid=parseInt(Math.cos(ideg/180*Math.PI)*ir);
+    return{hei,wid}
+
+    }
+
+    	function addTransitionEnd(obj,fn){
+				obj.addEventListener('WebkitTransitionEnd',fn,false);
+				obj.addEventListener('transitionend',fn,false);
+			};
+			
+			function removeTransitionEnd(obj,fn){
+				obj.removeEventListener('WebkitTransitionEnd',fn,false);
+				obj.removeEventListener('transitionend',fn,false);
+
+			};
+</script>
+</html>

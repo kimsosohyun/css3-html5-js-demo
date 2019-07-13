@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+body{margin: 0;}
+ul{
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	position: absolute;
+	top: 66%;
+	left: 50%;
+	margin-left: -150px;
+	margin-top: -200px;
+	width: 300px;
+	/*height: 400px;*/
+	box-sizing: border-box;
+	border:2px solid orange;
+	background: #eee;
+    height: 50px;
+	/*background: pink;*/
+}
+.wrap{
+    -webkit-perspective: 300px;
+    transform-style: preserve-3d;
+	width: 100%;
+	position: absolute;
+	top: 120px;
+	/*top:50px;*/
+	display: none;
+
+
+}
+li{
+    opacity: 0;
+	-webkit-transform:rotateX(40deg);
+	margin-left: 5%;
+	width: 90%;
+	height: 50px;
+	margin-top: 10px;
+    box-sizing: border-box;
+    border:1px solid orange;
+    background: white;
+    line-height: 25px;
+    font-size: 14px;
+    letter-spacing: 5px;
+    font-style: italic;
+	
+}
+.list h2{
+	font-size: 22px;
+	line-height: 50px;
+	padding:0;
+	margin:0;
+	text-indent: 18px;
+   	font-weight: normal;
+   	letter-spacing: 5px;
+}
+
+</style>
+</head>
+<body>
+	<ul class="list">
+		<h2>珊珊珊珊</h2>
+		<div class="wrap">
+			<li>走着走着怎么脚步渐渐慢了忙着忙着怎么生活变得拖沓</li>
+			<li>走着走着怎么脚步渐渐慢了忙着忙着怎么生活变得拖沓</li>
+			<li>走着走着怎么脚步渐渐慢了忙着忙着怎么生活变得拖沓</li>
+			<li>走着走着怎么脚步渐渐慢了忙着忙着怎么生活变得拖沓</li>
+			<li>走着走着怎么脚步渐渐慢了忙着忙着怎么生活变得拖沓</li>
+			
+		</div>		
+	</ul>
+</body>
+<script>
+	var olist=document.getElementsByClassName('list')[0];
+	var liWrap=document.getElementsByClassName("wrap")[0];
+    var lis=olist.getElementsByTagName('li');
+
+    animate();
+    function animate(){
+    	olist.style.transition=".8s";
+    	setTimeout(function(){
+    		olist.style.top="50%";
+    		olist.style.height="400px";
+  			liWrap.style.display="block";
+    		olist.addEventListener("webkitTransitionEnd",end);
+    	},1000/12)
+    }
+
+    function end(){
+    	olist.removeEventListener("webkitTransitionEnd",end);
+    	liWrap.style.transition=".4s";
+    	liWrap.style.top="50px";
+    	for(var i=0;i<lis.length;i++)
+    	{
+    		lis[i].style.transition=".4s "+i*160+"ms";
+    		lis[i].style.opacity=1;
+    		lis[i].style.WebkitTransform="rotateX(0deg)";
+    	}
+    	rotate();
+    }
+    function rotate(){
+    	var left=olist.offsetLeft+liWrap.offsetLeft;
+    	// console.log(left);
+    	
+    	for(var i=0;i<lis.length;i++)
+    	{    
+    		lis[i].style.transition=".3s";
+    		lis[i].addEventListener("mousemove",function(ev){
+     
+    			// console.log(ev.clientX);
+    			if (ev.clientX-left>lis[0].offsetWidth/2) {
+    				this.style.WebkitTransform="rotateY(14deg)";
+    			}
+    			else{
+    				this.style.WebkitTransform="rotateY(-14deg)";
+    			}
+    		})
+    		lis[i].addEventListener("mouseout",function(){
+    			this.style.WebkitTransform="rotateY(0deg)";
+    		})
+
+    	}
+
+	}
+</script>
+</html>

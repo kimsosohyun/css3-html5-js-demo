@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+body{
+	background: #778899;
+}
+#c1{
+	background: orange;
+}
+</style>
+</head>
+<body>
+<canvas id="c1" width="400" height="400"></canvas>
+</body>
+<script>
+window.onload=function(){
+	var oc=document.getElementById('c1');
+
+	var oGc=oc.getContext("2d");
+
+    create();
+	change();
+
+    function create(){
+
+    	oGc.lineWidth=1;
+            
+	    oGc.beginPath();
+	    for(var i=0;i<60;i++)
+	    {    
+	        oGc.moveTo(180,180);
+			oGc.arc(180,180,100,6*i*Math.PI/180,6*(i+1)*Math.PI/180,false);	
+	    }
+	    oGc.closePath();
+		oGc.stroke();
+
+
+		oGc.fillStyle = 'orange';
+		oGc.beginPath();
+		oGc.arc(180,180,90,0,360*(i+1)*Math.PI/180,false);
+		oGc.closePath();
+		oGc.fill();
+
+
+		oGc.beginPath();
+	    for(var i=0;i<60;i++)
+	    {    
+	        oGc.moveTo(180,180);
+			oGc.arc(180,180,100,30*i*Math.PI/180,30*(i+1)*Math.PI/180,false);	
+	    }
+	    oGc.closePath();
+		oGc.stroke();
+
+	    
+	    oGc.fillStyle = 'orange';
+		oGc.beginPath();
+		oGc.arc(180,180,80,0,360*(i+1)*Math.PI/180,false);
+		oGc.closePath();
+		oGc.fill();
+		oGc.beginPath();  
+    }
+
+	
+    function change(){
+
+		var date=new Date();
+		var sec=date.getSeconds();
+		var min=date.getMinutes()+sec/60;
+		var hour=date.getHours()+min/60;
+		       
+        oGc.lineWidth=2;
+        oGc.beginPath();
+        oGc.moveTo(180,180);
+		oGc.arc(180,180,86,(-90+sec*6)*Math.PI/180,(-90+sec*6)*Math.PI/180,false);
+		oGc.closePath();
+		oGc.stroke();
+
+		oGc.lineWidth=3;
+        oGc.beginPath();
+        oGc.moveTo(180,180);
+		oGc.arc(180,180,70,(-90+min*6)*Math.PI/180,(-90+min*6)*Math.PI/180,false);
+		oGc.closePath();
+		oGc.stroke();
+
+		oGc.lineWidth=4;
+        oGc.beginPath();
+        oGc.moveTo(180,180);
+		oGc.arc(180,180,60,(-90+hour*30)*Math.PI/180,(-90+hour*30)*Math.PI/180,false);
+		oGc.closePath();
+		oGc.stroke();		   	
+    }
+
+    setInterval(function(){
+    	oGc.clearRect(0,0,oc.width,oc.height);
+    	create();  
+	    change();        
+    },1000)
+
+
+
+	
+
+}
+</script>
+</html>

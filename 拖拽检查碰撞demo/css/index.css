@@ -1,0 +1,297 @@
+body {
+  margin: 0;
+  min-width: 1500px;
+  height: 1200px;
+  background: white;
+}
+h2,
+h3,
+p {
+  margin: 0;
+  padding: 0;
+}
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.clear {
+  content: "";
+  display: block;
+  clear: both;
+}
+.s_h2 {
+  position: absolute;
+  top: 20px;
+  left: 190px ;
+  display: block;
+  width: 120px;
+  background: #548235;
+  padding: 6px;
+  margin: 0 auto;
+  color: #C1FFC1;
+  border-radius: 6px;
+}
+.standard {
+  float: left;
+  width: 450px;
+  border: 2px solid #548235;
+  margin-top: 80px;
+  margin-left: 40px;
+}
+.standard .s_main {
+  margin: 5%;
+  width: 90%;
+  height: 90%;
+}
+.standard .s_main div {
+  overflow: hidden;
+  border: 2px dashed #5b9bd5;
+  box-sizing: border-box;
+  padding-bottom: 10px;
+}
+.standard .s_main span {
+  font-size: 12px;
+  margin-left: 36px;
+  font-weight: bold;
+}
+.standard .s_main ul li {
+  cursor: move;
+  font-size: 18px;
+  line-height: 40px;
+  text-align: center;
+  width: 100px;
+  height: 40px;
+  border: 2px solid rgba(91, 155, 213, 0.7);
+  float: left;
+  margin-left: 26px;
+  margin-bottom: 10px;
+}
+.standard .s_main .s_item1 {
+  width: 100%;
+}
+.standard .s_main .s_item2 {
+  width: 40%;
+  margin-top: 20px;
+  float: left;
+}
+.standard .s_main .s_item3 {
+  width: 40%;
+  margin-top: 20px;
+  float: right;
+}
+.standard .s_main .s_item4 {
+  width: 100%;
+  margin-top: 20px;
+}
+.standard .s_main .s_item5 {
+  width: 100%;
+  margin-top: 20px;
+}
+.l2r {
+  width: 100px;
+  height: 120px;
+  position: absolute;
+  top: 400px;
+  left: 520px;
+  background: url("../img/l2r.png") no-repeat;
+  background-size: cover;
+}
+.m_h2 {
+  position: absolute;
+  top: 20px;
+  left: 800px ;
+  display: block;
+  width: 100px;
+  background: #548235;
+  padding: 6px;
+  margin: 0 auto;
+  color: #C1FFC1;
+  border-radius: 6px;
+}
+.myLibrary {
+  float: left;
+  width: 450px;
+  border: 2px solid #548235;
+  margin-top: 80px;
+  margin-left: 140px;
+}
+.myLibrary .m_main {
+  margin: 5%;
+  width: 90%;
+  height: 90%;
+}
+.myLibrary .m_main div {
+  overflow: hidden;
+  border: 2px dashed #5b9bd5;
+  box-sizing: border-box;
+  padding-bottom: 10px;
+}
+.myLibrary .m_main span {
+  font-size: 12px;
+  margin-left: 36px;
+  font-weight: bold;
+}
+.myLibrary .m_main ul li {
+  font-size: 18px;
+  line-height: 40px;
+  text-align: center;
+  width: 100px;
+  height: 40px;
+  border: 2px solid rgba(91, 155, 213, 0.7);
+  float: left;
+  margin-left: 26px;
+  margin-bottom: 10px;
+}
+.myLibrary .m_main ul li span {
+  color: #fff;
+  line-height: 40px;
+  width:30px;
+  font-size: 20px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom:0;
+  display: none;
+  cursor: pointer;
+  background: rgba(0,0,0,.3);
+}
+.myLibrary .m_main .m_item1 {
+  width: 100%;
+}
+.myLibrary .m_main .m_item2 {
+  width: 40%;
+  margin-top: 20px;
+  float: left;
+}
+.myLibrary .m_main .m_item3 {
+  width: 40%;
+  margin-top: 20px;
+  float: right;
+}
+.myLibrary .m_main .m_item4 {
+  width: 100%;
+  margin-top: 20px;
+}
+.myLibrary .m_main .m_item5 {
+  width: 100%;
+  margin-top: 20px;
+}
+.aside {
+  width: 280px ;
+  float: right;
+  margin-top: 80px;
+  margin-right: 50px;
+}
+.aside .name {
+  border: 5px solid #548235;
+  border-radius: 8px;
+}
+.aside .name h3 {
+  color: #177f95;
+  padding: 10px;
+}
+.aside .name p {
+  margin-top: 6px;
+  display: block;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 15px;
+  line-height: 20px;
+  color: #6E6E6E;
+}
+.aside .name input {
+  border: 2px solid #8a757a;
+  padding: 6px ;
+  width: 240px;
+  font-size: 16px;
+  border-radius: 3px;
+  margin: 30px 10px 15px 10px;
+  text-indent: 2px;
+}
+.aside .icon {
+  margin-top: 12px;
+  border: 5px solid #548235;
+  border-radius: 8px;
+}
+.aside .icon h3 {
+  color: #177f95;
+  padding: 10px;
+}
+.aside .icon p {
+  margin-top: 6px;
+  display: block;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 15px;
+  line-height: 20px;
+  color: #6E6E6E;
+}
+.aside .icon input {
+  width: 104px;
+  display: block;
+  margin: 20px auto 0;
+  text-align: center;
+  list-style: none;
+  font-size: 22px;
+}
+.aside .icon img {
+  display: block;
+  padding: 0;
+  margin: 10px auto;
+}
+.aside .icon span {
+  display: block;
+  padding-bottom: 15px;
+  text-align: center;
+  font-size: 16px;
+  color: red;
+}
+.aside .letGo {
+  margin-top: 12px;
+  border: 5px solid #548235;
+  border-radius: 8px;
+}
+.aside .letGo h3 {
+  color: #177f95;
+  padding: 10px;
+}
+.aside .letGo p {
+  margin-top: 6px;
+  display: block;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 15px;
+  line-height: 20px;
+  color: #6E6E6E;
+}
+.aside .letGo input {
+  width: 104px;
+  display: block;
+  margin: 20px auto 0;
+  text-align: center;
+  list-style: none;
+  font-size: 22px;
+}
+.aside .letGo img {
+  display: block;
+  padding: 0;
+  margin: 10px auto;
+}
+.aside .letGo span {
+  display: block;
+  padding-bottom: 15px;
+  text-align: center;
+  font-size: 16px;
+  color: red;
+}
+.aside button {
+  outline: none;
+  margin-top: 30px;
+  float: right;
+  width: 120px;
+  height: 30px;
+  background: url("../img/btn.png");
+  background-size: contain;
+}
+/*# sourceMappingURL=index.css.map */

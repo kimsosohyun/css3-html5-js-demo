@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+.onoff{
+	width: 100px;
+	height: 50px;
+
+}
+#checkbox{
+	display: none;
+}
+label{
+    transition: 0.3s;
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+    border: 2px solid #bbb;
+	border-radius: 28px ;
+	position: relative;
+	
+
+}
+.move{
+	position: absolute;
+	top: -2px;
+	z-index: 0;
+	background: white;
+	display: block;
+/*	margin-top: -2px;*/
+	width: 50%;
+	height: 50px;
+	border-radius: 50%;
+	border: 2px solid #bbb;
+	box-shadow: 1px 2px 6px #bbb;
+	transition: 0.5s;
+}
+/*#checked:checked+label{} 不能用与lable绑定的ID来写checked事件，不生效.*/
+.this:checked+label{
+    background: rgb(210,253,211);
+}
+.this:checked+label .move{
+    box-shadow: none;
+	transform: translateX(50px);
+}
+.this:checked+label #em2{
+
+	opacity: 1;
+}
+.this:checked+label #em1{
+
+	opacity: 0;
+}
+/*要控制label下的元素必须要  +label*/
+
+em{ 
+	position: absolute;
+	top: 0px;
+	font-style: normal;
+    font-size: 18px;
+    width: 50px;
+    height: 50px;
+    display: block;
+    line-height: 50px;
+    text-align: center;
+    z-index: 1;
+    transition: 0.5s;
+  
+
+}
+label em:nth-of-type(1){
+	left: 0px;
+}
+label em:nth-of-type(2){
+	left: 50px;
+	opacity: 0;
+}
+
+	</style>
+
+</head>
+<body>
+	<div class="onoff">
+		<input id="checkbox" class="this" type="checkbox">
+		<label for="checkbox">
+			<span class="move"></span>			
+				 	<em id="em1">on</em>
+					<em id="em2">off</em>				 			
+
+		</label>
+
+	</div>
+</body>
+</html>

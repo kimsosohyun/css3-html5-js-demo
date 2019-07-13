@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+body{
+	margin: 0;
+}
+nav{
+	width: 400px;
+	height: 50px;
+/*	background: pink;*/
+	margin: 10px auto;
+	display: flex;
+	justify-content: space-between;
+/*	transform-style: preserve-3d;*/
+	-webkit-perspective: 100px;
+
+/*	-webkit-box-orient: horizontal;*/
+	
+
+}
+a{
+
+	transition: .5s;
+    display: block;
+    text-decoration: none;
+    width: 100px;
+	height: 50px;  
+    transform-style: preserve-3d;
+	transform-origin:bottom;	
+	position: relative;
+ -webkit-transform-origin:center center -25px;/*高度的一半*/
+
+}
+nav a span{
+	-webkit-backface-visibility: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+	box-sizing: border-box;	
+	border:2px solid orange;
+	width:100%;
+	height: 100%;
+	display: block;
+	line-height: 50px;
+	color: black;
+	text-align: center;
+	font-size: 18px;
+}
+nav a span:nth-of-type(2){
+	top: 50px;
+
+	transform-origin:top;
+	-webkit-transform:rotateX(-90deg);
+
+}
+a:hover{	
+	-webkit-transform:rotateX(90deg);
+}
+</style>
+</head>
+<body>
+	<nav>
+		<a href="javascript:;">
+			<span>呀呀呀1</span>
+			<span>啊啊啊1</span>
+		</a>
+		<a href="javascript:;">
+			<span>呀呀呀1</span>
+			<span>啊啊啊1</span>
+		</a>
+		<a href="javascript:;">
+			<span>呀呀呀1</span>
+			<span>啊啊啊1</span>
+		</a>
+		<a href="javascript:;">
+			<span>呀呀呀1</span>
+			<span>啊啊啊1</span>
+		</a>
+		<a href="javascript:;">
+			<span>呀呀呀1</span>
+			<span>啊啊啊1</span>
+		</a>
+	</nav>
+</body>
+
+<script>
+	// var as=document.getElementsByTagName('a');
+	// var span1=
+</script>
+</html>

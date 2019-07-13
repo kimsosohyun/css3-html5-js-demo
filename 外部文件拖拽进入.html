@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+
+#box{
+	width: 600px;
+	height: 200px;
+	border: 2px solid black;
+	margin: 80px auto;
+	font-size: 40px;
+	color: #ddd;
+	text-align: center;
+	line-height: 200px;
+	letter-spacing: 10px;
+}
+#mark{
+	width: 100%;
+	height: 100%;
+	background: #778899;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	opacity: 0.5;
+	z-index: 1;
+	display: none;
+}
+#nshow{
+	display: none;
+	width: 884px;
+	height: 400px;
+	position:absolute;
+	top: 0px;
+	margin: 0 auto;
+	opacity: 0.9;
+	background:#FFF0F5;
+	overflow:auto;
+	z-index: 2;
+}
+#list{
+	margin: 0px;
+	padding: 0px;
+}
+.li{
+	width: 200px;
+	list-style: none;
+	height: 120px;
+	background: #00B2EE;
+    margin-left: 10px;
+    margin-bottom: 20px;
+    float: left;
+}
+.img{
+	width: 196px;
+	height: 116px;
+	margin: 2px;
+}
+#submit{
+    position: absolute;
+	color: #006400;
+	background: white;
+	width: 22px;
+	height: 50px;
+	border: 1px solid black;
+	bottom: 4px;
+	right: 0px;
+	text-align: center;
+	line-height: 22px;
+	cursor: pointer;
+	font-style: italic;
+	border-radius: 10%;
+}
+#x{
+	position: absolute;
+	color: red;
+	width: 22px;
+	height: 22px;
+	border: 1px solid black;
+	top: 4px;
+	right: 0px;
+	border-radius: 50%;
+	background: white;
+	text-align: center;
+	font-weight: bold;
+	line-height: 22px;
+	cursor: pointer;
+}
+</style>
+</head>
+<body >
+  <div id="box">拖到这里哦！</div>
+
+  <div id="mark"></div>
+
+  <div id="nshow">
+  	<div id="submit">上传</div>
+  	<div id="x">x</div>
+  	<ul id="list">
+<!--   		<li class="li">
+  			<img class="img" src="./img/1.jpg" alt="">
+  		</li>
+  		<li class="li">
+  			<img class="img" src="./img/1.jpg" alt="">
+  		</li>
+  		<li class="li">
+  			<img class="img" src="./img/1.jpg" alt="">
+  		</li>
+  		<li class="li">
+  			<img class="img" src="./img/1.jpg" alt="">
+  		</li>
+  		<li class="li">
+  			<img class="img" src="./img/1.jpg" alt="">
+  		</li>
+  	 -->
+  	</ul>
+  </div>
+
+</body>
+<script>
+window.onload=function(){
+	var odiv=document.getElementById('box');
+	var oul=document.getElementById("list");
+	var mark=document.getElementById("mark");
+	var show=document.getElementById("nshow");
+    var x=document.getElementById("x");
+
+    odiv.ondragenter=function(){
+    	this.innerHTML="抬起你的鼠标吧！";
+    	this.style.color= "#006400";
+    }
+
+    odiv.ondragover=function(ev){
+    	ev.preventDefault();
+    }
+
+    odiv.ondragleave=function(){
+    	this.innerHTML="拖到这里哦！";
+    	this.style.color= "#ddd";
+    	
+    }
+	odiv.ondrop=function(ev){
+
+        ev.preventDefault();//阻止拖拽入的文件自动打开的默认事件。
+
+        var data=ev.dataTransfer.files;//拖拽入的文件，为一个数组的形式。
+        // alert(data[0].type);
+        for(var i=0 ;i<data.length; i++){
+        	if (data[i].type.indexOf("image")!=-1) {//从i=0开始判断。
+        	     var ready=new FileReader();
+        	     ready.readAsDataURL(data[i]);
+        	     ready.onload=function(){
+                    var li=document.createElement("li");
+                    var img=document.createElement("img");
+                    img.src=this.result;
+                    li.className="li";
+                    img.className="img";
+                    li.appendChild(img);
+                    oul.appendChild(li);
+                    mark.style.display="block";
+                    show.style.display="block";
+                    show.style.left=(document.documentElement.clientWidth-show.offsetWidth)/2+"px";
+                    x.onclick=function(){
+                        show.style.display="none";
+                     	mark.style.display="none";
+                     	odiv.innerHTML="拖到这里哦！";
+    	                odiv.style.color= "#ddd";
+    	                oul.innerHTML="";
+                    }
+
+        	    }        
+        	}
+        	else{
+        		alert("请拖入图片类型的文件哦！")
+        	}
+        }       
+	}
+}
+</script>
+</html>

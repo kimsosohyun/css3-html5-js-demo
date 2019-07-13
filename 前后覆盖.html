@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+    body{
+    	 margin: 0px;
+    	 background: rgb(220,212,241);   	
+    }
+    #wrap{  /*在包裹正反面的外壳外面还得有个外壳为box提供3D环境景深！*/
+       -webkit-perspective: 420px;
+		transform-style: preserve-3d;/*保证子元素的3D变换可以实现*/
+		transform-origin: center center;
+    }
+	#box{	
+		width: 400px;
+		height: 300px;/*实现这个效果的优化项：最好使包裹正反面的这个父级的宽高和子元素的宽高是相同的。*/
+		margin: 100px auto;
+		transform-style: preserve-3d;	
+		position: relative;
+		/*transition: 20s;*/
+	}
+	#before{
+
+		-webkit-transform: rotateY(0deg);
+	}
+	#before,#after{
+		-webkit-backface-visibility: hidden;
+		width: 400px;
+		position: absolute;
+		height: 300px;
+	/*	top: 100px;
+		left: 50px;*/		
+		-webkit-transform-style: preserve-3d;
+	}
+	#top{
+		font-size: 30px;
+		text-align: center;
+		width: 100%;
+		display: inline-block;
+		padding-top: 20px;
+		padding-bottom:20px;
+		letter-spacing: 10px;
+	}
+	#bottom{
+		background: url(./img/5.jpg);
+        width: 100%;
+        height: 200px;
+        background-size: cover;
+        display: block;
+        padding-top: 10px;
+        -webkit-background-clip:content;        
+        border-top: 3px solid pink;
+        -webkit-transform:translateZ(20px);
+	}
+	#after{
+		background:rgba(240,210,221,0.5);
+		display: -webkit-box;
+		border: 2px solid black;
+		-webkit-box-align: center;
+		-webkit-transform: rotateY(180deg);
+	
+	}
+	.list{		
+        width: 0px;
+        margin: 4px;
+        -webkit-box-flex:1;
+        border: 2px solid pink;
+        height: 100px;            
+	}
+</style>
+</head>
+<body>
+	<div id="wrap">
+		<div id="box">
+			<div id="after">
+				<div class="list" style="background: url(./img/3.jpg) -40px 0; background-size:cover;-webkit-transform:translateZ(10px);"></div>
+				<div class="list" style="background: url(./img/1.jpg) 0 0; background-size:cover;-webkit-transform:translateZ(20px);"></div>
+				<div class="list" style="background: url(./img/2.jpg) -20px 0; background-size:cover;-webkit-transform:translateZ(10px);"></div>
+			</div>
+			<div id="before">
+				<span id="top">最最最的呀</span>
+				<span id="bottom">
+					
+
+				</span>
+
+			</div>
+		</div>
+	</div>
+</body>
+ <script>
+window.onload=function(){
+
+	var box=document.getElementById("box");
+    var num=0;
+
+    var timer=setInterval(function(){
+    	num+=0.3;
+    	box.style.WebkitTransform="rotateY("+num+"deg)";
+    	
+    },1000/60)
+	// document.onclick=function(){
+	// 	box.style.WebkitTransform="rotateY(360deg) translateZ(200px)";
+	// }
+
+}
+ </script>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+#nav{
+	width: 877px;
+	height: 30px;
+	border: 2px solid #B4EEB4;
+	margin: 20px auto;
+}	
+li{
+	list-style: none;
+}
+ul{
+	padding: 0px;
+	margin: 0px;
+}
+#nav li{
+	width: 120px;
+	height: 30px;
+	border-right: 1px solid #ccc;
+	position: relative;
+	float: left;
+	background: #F0FFF0;
+	cursor: pointer;
+	overflow: hidden;
+}
+#nav span{
+	font-size: 14px;
+	line-height: 30px;
+	width: 120px;
+	display: block;
+	text-align: center;
+	position: absolute;
+	z-index: 2;
+}
+#mark1,#mark2,#mark3,#mark4,#mark5,#mark6,#mark7,#mark8{
+	width: 100%;
+	position: absolute;
+	height: 100%;
+	top: 30px;
+	left: 0px;
+	transition: 0.5s;
+	z-index: 1;
+	opacity: 0.5;
+}
+#mark1{
+	background: #00F5FF;
+}
+#mark2{
+	background: #8470FF;
+}
+#mark3{
+	background: #87CEFA;
+}
+#mark4{
+	background: #7CFC00;
+}
+#mark5{
+	background: #EEEE00;
+}
+#mark6{
+	background: #FF6A6A;
+}
+#mark7{
+	background: #EE9A49;
+}
+#mark8{
+	background: #FFA500;
+}
+
+#nav #special{
+	width: 30px;
+	height: 30px;
+	border: none;
+	background: #97FFFF;
+}
+#nav em{
+	display: block;
+	width: 28px;
+	font-size: 10px;
+	line-height: 30px;
+    margin: 0px;
+    padding: 0px;
+	height: 28px;
+	border: 1px solid #97FFFF;
+	background: #FFF0F5;
+	border-radius: 50%;
+}
+
+</style>
+</head>
+<body>
+	<ul id="nav">
+		<li ad="a">
+            <span>新闻头条</span>
+			<div id="mark1"></div>
+		</li>
+
+		<li ad="b">
+            <span>电视剧</span>
+			<div id="mark2"></div>
+		</li>
+
+		<li ad="c">
+            <span>最新电影</span>
+			<div id="mark3"></div>
+		</li>
+
+		<li ad="d">
+            <span>小游戏</span>
+			<div id="mark4"></div>
+		</li>
+
+		<li ad="e">
+            <span>小说大全</span>
+			<div id="mark5"></div>
+		</li>
+
+		<li ad="f">
+            <span>网上购物</span>
+			<div id="mark6"></div>
+		</li>
+
+		<li ad="g">
+            <span>娱乐八卦</span>
+			<div id="mark7"></div>
+		</li>
+<!-- 
+		<li ad="h">
+            <span>旅游大全</span>
+			<div id="mark8"></div>
+		</li> -->
+
+		<li id="special">
+			<em>静音</em>
+		</li>
+
+		<audio id="ad" src=""></audio>
+	</ul>
+</body>
+<script>
+window.onload=function(){
+	var ali=document.getElementsByTagName('li');
+	var oli=document.getElementById('special');
+	var ad=document.getElementById("ad");
+
+    for(var i=0 ;i<ali.length-1; i++){
+        ali[i].index=i;
+        
+        ali[i].addEventListener("mouseover",function(){
+        	that=this;
+        	setTimeout(function(){      		
+        		var mark=that.getElementsByTagName("div")[0];
+        		mark.style.top="0px";
+	            ad.src='http://s8.qhimg.com/share/audio/piano1/'+that.getAttribute('ad')+'4.mp3';
+	        	ad.play();
+
+        	},200)	
+		},false)
+
+		ali[i].addEventListener("mouseout",function(){
+			var mark=this.getElementsByTagName("div")[0];
+        	mark.style.top="30px";
+		},false)
+        	 
+    }
+    var onoff=true;
+    oli.addEventListener("click",function(){
+    	if (onoff) {
+    		ad.muted=true;
+    		onoff=false;
+    	}
+    	else{
+    		ad.muted=false;
+    		onoff=true;
+    	}
+    },false)	
+}
+</script>
+</html>

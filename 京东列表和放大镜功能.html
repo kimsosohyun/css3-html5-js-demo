@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+*{
+	margin: 0px;
+	padding: 0px;
+}
+li{
+	list-style: none;
+}
+#box{
+	margin:20px 0 0 50px;
+	width: 460px;
+	height: 530px;
+/*	border: 1px solid black;*/
+	position: relative;
+}
+#small{
+	height: 460px;
+	width: 100%;
+	border: 1px solid #ddd;
+	position: relative;
+    overflow: hidden;
+}	
+#img{
+	height: 460px;
+	width: 460px;
+}
+#mark{
+	position: absolute;
+	width: 280px;
+	height: 280px;
+	background: yellow;
+	top: 0px;
+	left: 0px;
+	opacity: 0.3;
+	border: 1px solid #ddd;
+	display: none;
+}
+#list{
+    width: 340px;
+/*	background: red;*/
+	height: 60px;
+	position: absolute;
+	bottom: 0px;
+	left: 60px;
+	overflow: hidden;
+/*	background: yellow;*/
+}
+#meau{
+    /*width: 800px;*/
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	height: 60px;	
+	transition: 0.5s;
+
+}
+.li{
+	width: 60px;
+	height: 60px;
+	float: left;
+	margin-left: 10px;
+}
+#meau .active{
+    margin-left: 0px;
+    background: red;
+}
+/*#meau .special{
+	background: orange;
+}*/
+#left,#right{
+	cursor: pointer;
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    bottom: 0px;
+    background: white;
+    font-weight: bold;
+    color: #ddd;
+    font-size: 45px;
+    line-height: 60px;
+    border: none;
+    outline: none;
+    transition: 0.5s;
+}
+#left{
+	left: 0px;
+}
+#right{
+	right: 0px;
+}
+
+#big{
+	width: 700px;
+	height: 580px;
+	overflow: hidden;
+	position: absolute;
+	left: 512px;
+	top: 20px;
+	border: 1px solid #ddd;
+	display: none;
+}
+.imgb{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+.imgs{
+	margin:2px;
+	width: 56px;
+	height: 56px;
+}
+
+</style>
+</head>
+<body>
+	<div id="box">
+		<div id="small">
+			<img id="img" src="" alt="">
+			<div id="mark"></div>
+		</div>
+		
+			<input id="left" type="button" value="<">
+			<input id="right" type="button" value=">">
+		<div id="list">
+		<ul id="meau">
+           <!--  <li class="li active">
+            	<img class="imgs" src="./images/1.jpg" alt="">
+            </li>
+            <li class="li"></li>
+            <li class="li"></li>
+            <li class="li"></li>
+            <li class="li"></li>
+
+            <li class="li special"></li> -->
+		</ul>
+		</div>
+	</div>
+	<div id="big">
+		<img class="imgb" src="" alt="">
+	</div>
+</body>
+<script>
+window.onload=function(){
+    var sma=document.getElementById('small');
+    var mark=document.getElementById("mark");
+    var oul=document.getElementById("meau");
+    var big=document.getElementById("big");
+    var oimgb=big.getElementsByTagName("img")[0];
+    var oimg=document.getElementById("img");
+    var aimg=["./images/1.jpg","./images/4.jpg","./images/3.jpg","./images/6.jpg","./images/11.jpg","./images/7.jpg","./images/8.jpg"];
+
+    first();
+
+    function first(){
+    	oimgb.src=aimg[0];
+    	oimg.src=aimg[0];
+    	oul.style.width=aimg.length*70-10+"px";
+    }
+        
+    for( var i=0; i<aimg.length ;i++)
+    {              
+        if (i==0) {
+            oul.innerHTML+='<li class="li active"><img class="imgs" src="'+aimg[i]+'" alt=""></li>';
+        }
+        else{
+        oul.innerHTML+='<li class="li"><img class="imgs" src="'+aimg[i]+'" alt=""></li>'
+        }
+    }
+
+    var ali=oul.getElementsByTagName('li');
+
+    // var aimage=oul.getElementsByTagName('img');
+    // alert(ali.length);
+    for(var i=0; i<ali.length ;i++){
+    	ali[i].index=i;
+    	ali[i].onmouseover=function(){
+    		var that=this;
+    		var timer=setTimeout(function(){
+            	for(var j=0; j<ali.length ;j++)
+            	{
+            		ali[j].style.background="white";
+            	}
+            	// this.style.width="56px";
+            	// this.style.height="56px";
+            	// aimage[this.index].style.border="2px solid red";
+            	oimg.src=aimg[that.index];
+            	oimgb.src=aimg[that.index];
+            	that.style.background="red";           
+    		},200)//设置延迟参数，只有当用户鼠标移入200ms及其以上才会有事件发生。
+    	}
+    		
+    }
+    for(var i=0; i<ali.length ;i++){
+    	ali[i].onmouseout=function(){
+    		// aimage[this.index].style.border="";
+    		// this.style.width="60px";
+    		// this.style.height="60px";
+    		this.style.background="white";
+    	}
+    }
+    var left=document.getElementById("left");
+    var right=document.getElementById("right");
+    // alert(getStyle(oul,"left"));带有px 
+    right.onclick=function(){
+    	if (-oul.offsetLeft==oul.offsetWidth-340) {
+    		// alert(0);
+    	}
+    	else{       
+
+    		// oul.style.left=parseInt(getStyle(oul,"left"))-70+"px";
+            oul.style.left=oul.offsetLeft-70+"px";
+
+    		this.style.color="#778899";   		
+    		setTimeout(function(){
+    			right.style.color="#ddd";
+    		},500)
+    	}
+    }
+    left.onclick=function(){
+    	if (parseInt(getStyle(oul,"left"))==0) {
+    		// alert(0);
+    	}
+    	else{       
+    	    // oul.style.left=parseInt(oul.style.left)+70+"px";此代码不能运行，oul.style.left不能识别，只能识别Oul.offsetLeft，所以可以用getstyle()函数来得到它的left值，也可以用Oul.offsetLeft，因为父级有定位所以两值相等。
+    		oul.style.left=parseInt(getStyle(oul,"left"))+70+"px";
+
+    		this.style.color="#778899";   		
+    		setTimeout(function(){
+    			left.style.color="#ddd";
+    		},500)
+    	}
+    }
+
+    sma.onmouseenter=function(){
+
+    	mark.style.display="block";
+    	big.style.display="block";
+
+    }
+    sma.onmousemove=function(ev){
+
+        var ev=ev||event;     
+        var l=ev.clientX-sma.offsetLeft-mark.offsetWidth/2;
+
+        if (l<0) {
+            l=0;
+        }
+
+        if (l>sma.offsetWidth-mark.offsetWidth) {
+            l=sma.offsetWidth-mark.offsetWidth;
+        }
+
+        mark.style.left=l+"px";
+
+        var t=ev.clientY-sma.offsetTop-mark.offsetHeight/2;
+         if (t<0) {
+            t=0;
+        }
+
+        if (t>sma.offsetHeight-mark.offsetHeight) {
+            t=sma.offsetHeight-mark.offsetHeight;
+        }
+
+        mark.style.top=t+"px"; 
+
+        var scaleX=l/(sma.offsetWidth-mark.offsetWidth);
+        var scaleY=t/(sma.offsetHeight-mark.offsetHeight);
+
+        oimgb.style.left=scaleX*(big.offsetWidth-oimgb.offsetWidth)+"px";
+        oimgb.style.top=scaleY*(big.offsetHeight-oimgb.offsetHeight)+"px";
+       
+    }
+
+    sma.onmouseleave=function(){
+    	mark.style.display="none";
+    	big.style.display="none";
+    }
+
+    function getStyle( obj, attr ){   //  obj对应对象$('box')   attr属性 对应字符串'width'
+	return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle( obj )[attr];
+    }
+
+}	
+
+</script>
+
+</html>

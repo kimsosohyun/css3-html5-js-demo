@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+body,html{
+	width:100%;
+	height: 100%;
+	overflow: hidden;
+	margin: 0px;
+	background:#e8d0ca;
+}
+ul{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.pic{
+	width:500px;
+	height: 300px;
+	margin: 100px auto;
+	position: relative;
+}
+#pic_list{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+#pic_list li{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	border: 6px solid orange;
+	border-radius: 2px;
+	box-shadow: 0 0 10px rgba(0,0,0,.8), inset 0 0 5px rgba(0,0,0,.4);
+	
+	opacity: 0;
+}
+#pic_list li img{
+	vertical-align: top;
+	width:100%;
+	height:100%;
+}
+.btn{
+	z-index: 5;
+	transition: .3s transform opacity;
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	background: url(./img/btn.png);
+	top: 130px;
+	opacity: 0;
+	display: none;
+}
+.left{
+    left: 5px;
+    background-position: left bottom;
+}
+.right{
+	right: 5px;
+	background-position: right bottom;
+}
+.left:hover{
+	left: 4px;
+	-webkit-transform:scale(1.2);
+	 background-position: left top;
+}
+.right:hover{
+	right: 4px;
+	-webkit-transform:scale(1.2);
+	 background-position: right top;
+}
+</style>
+</head>
+<body>
+	<div class="pic">
+		<ul id="pic_list">
+			<!-- <li><img src="" alt=""></li> -->
+		</ul>
+		<div class="btn left"></div>
+		<div class="btn right"></div>
+	</div>
+</body>
+
+<script>
+var arrimg=["./img/1.jpg","./img/2.jpg","./img/3.jpg","./img/4.jpg"];
+var inow=0;
+for(var i=0;i<arrimg.length;i++)
+{
+	var oimg=new Image();
+	oimg.src=arrimg[i];
+	oimg.onload=function(){
+		inow++;
+		if (inow==arrimg.length) {
+			start();
+		}
+	}
+}
+var pic=document.getElementsByClassName("pic")[0];
+var olist=document.getElementById('pic_list');
+var abtn=document.getElementsByClassName('btn');
+var inner="";
+var lis=olist.children;
+var idex="";
+
+function start(){
+  for(var i=0;i<arrimg.length;i++)
+  {
+  	inner+='<li><img src='+arrimg[i]+' alt=""></li>';
+  }
+  olist.innerHTML=inner;
+  idex=lis.length;
+  // var deg=0;
+  for(var i=0;i<arrimg.length;i++)
+  {
+  	lis[i].deg=Math.random()*100%14;
+  	lis[i].style.WebkitTransform="rotate("+lis[i].deg+"deg) scale(1.8)";
+  	lis[i].style.zIndex=lis.length-i;
+  }
+  show();
+}
+function show(){
+   for(var i=0;i<arrimg.length;i++)
+  {
+  	lis[i].style.transition=".3s "+(lis.length-i)*400+"ms";
+  	setTimeout(function(){
+  		for(var j=0;j<arrimg.length;j++)
+        {
+  		lis[j].style.opacity="1";
+  		lis[j].style.WebkitTransform="rotate("+lis[j].deg+"deg)";
+  	    }
+  	},100)
+  }
+  setTimeout(function(){
+  	btn();
+  },2000)
+  
+}
+function btn(){
+	
+	pic.onmouseover=function(){
+		abtn[0].style.display="block";
+	    abtn[1].style.display="block";
+	    
+    	abtn[0].style.opacity=1;
+		abtn[1].style.opacity=1;
+	  
+	}
+	pic.onmouseout=function(){
+		abtn[0].style.opacity=0;
+		abtn[1].style.opacity=0;
+	}
+
+	var ithis=0; 
+	var onoff1=true;
+	var onoff2=true;
+
+	abtn[0].onclick=function(){
+		if (onoff1) {
+			onoff1=false;
+		    ithis--;
+		    idex++;
+		    if (ithis<0) {
+		    	ithis=lis.length-1;
+		    }
+		    lis[ithis].style.transition=".5s";
+		    lis[ithis].style.left="-100%";
+		    lis[ithis].style.opacity="0";
+		    lis[ithis].addEventListener("webkitTransitionEnd",end);
+		    abtn[0].style.zIndex=idex+1;
+		    abtn[1].style.zIndex=idex+1;
+		    function end(){
+		    	 lis[ithis].removeEventListener("webkitTransitionEnd",end);	    	 
+			     lis[ithis].style.transition="0s";
+		    	 lis[ithis].style.WebkitTransform="scale(1.4)";
+		    	 lis[ithis].style.zIndex=idex;
+		    	 setTimeout(function(){		    	 	
+				    lis[ithis].style.transition=".5s";   
+		    	 	lis[ithis].style.WebkitTransform="scale(1)";
+		    	 	lis[ithis].style.opacity="1";
+		    	 	lis[ithis].style.left="0";
+		    	 	lis[ithis].style.WebkitTransform="rotate("+lis[ithis].deg+"deg)";
+		    	 	lis[ithis].addEventListener("webkitTransitionEnd",over);
+		    	 	function over(){
+		    	 		lis[ithis].removeEventListener("webkitTransitionEnd",over);
+		    	 		onoff1=true;
+		    	 	}
+		    	 },100)
+		    }
+
+	    }
+	}
+	abtn[1].onclick=function(){
+		if (onoff2) {
+			onoff2=false;
+		    ithis++;
+		    idex++;
+		    if (ithis==lis.length) {
+		    	ithis=0;
+		    }
+		    lis[ithis].style.transition=".5s";
+		    lis[ithis].style.left="100%";
+		    lis[ithis].style.opacity="0";
+		    lis[ithis].addEventListener("webkitTransitionEnd",end);
+		    abtn[0].style.zIndex=idex+1;
+		    abtn[1].style.zIndex=idex+1;
+		    function end(){
+		    	 lis[ithis].removeEventListener("webkitTransitionEnd",end);	    	 
+			     lis[ithis].style.transition="0s";
+		    	 lis[ithis].style.WebkitTransform="scale(1.4)";
+		    	 lis[ithis].style.zIndex=idex;
+		    	 setTimeout(function(){		    	 	
+				    lis[ithis].style.transition=".5s";   
+		    	 	lis[ithis].style.WebkitTransform="scale(1)";
+		    	 	lis[ithis].style.opacity="1";
+		    	 	lis[ithis].style.left="0";
+		    	 	lis[ithis].style.WebkitTransform="rotate("+lis[ithis].deg+"deg)";
+		    	 	lis[ithis].addEventListener("webkitTransitionEnd",over);
+		    	 	function over(){
+		    	 		lis[ithis].removeEventListener("webkitTransitionEnd",over);
+		    	 		onoff2=true;
+		    	 	}
+		    	 },100)
+		    }
+	    }
+	}
+}
+</script>
+</html>
+

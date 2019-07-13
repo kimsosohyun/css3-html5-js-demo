@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+body{
+	margin:0px;
+	background: rgb(232, 208, 202);
+}
+ul{
+	padding:0px;
+	margin: 0px;
+	list-style: none;
+}
+img{
+	vertical-align: top;
+}
+h4{
+	padding: 0px;
+	margin: 0px;
+}
+.zoom_box{
+ 
+	width: 600px;
+	height: 300px;
+/*	background: red;*/
+    overflow: hidden;
+	margin: 100px auto;
+	position:relative;
+}
+
+#pic li{
+	position: absolute;
+	top: -80px;
+	left: 100px;
+	transition: .7s;
+	opacity: 1;
+}
+#pic .active{
+	top: 16px;
+	left: 120px;
+	opacity: 1;
+}
+#pic .hidden{
+	top: 0px;
+	left: 430px;
+	opacity: 0;
+}
+#text{
+	overflow:hidden;
+	width: 300px;
+	height: 90px;
+	position:absolute;
+	bottom: 90px;
+	right: 40px;
+}
+#text li{
+    width: 300px;
+	height: 90px;
+	/*background: black;*/
+	position: absolute;
+	top: 0px;
+    left: 330px;
+    transition: .9s;
+    z-index: 1;
+}
+
+#text h4{
+	color: orange;
+	font-size: 26px;
+	text-indent: 18px;
+	font-style: italic;
+	letter-spacing: 2px;
+	/*margin-bottom: 20px;*/
+}
+#text span{
+	margin-top: 20px;
+	display: block;
+	color: black;
+	font-size: 20px;
+	letter-spacing: 1px;
+	text-indent: 10px;
+}
+#text .active{
+	top: 0px;
+	left: 50px;
+}
+#text .hidden{
+	top: 100px;
+	left: 50px;
+}
+#btn{
+	height: 21px;
+	position: absolute;
+	bottom: 50px;
+	left: 300px;
+}
+#btn li{
+    float: left;
+    margin-right: 10px;
+	width: 20px;
+	height: 21px;
+	background: url(./img/iCourseTabBtnShadow.png);
+	position: relative;
+}
+#btn span{
+	display: block;
+	width: 14px;
+	height: 14px;
+	position: absolute;
+	top:3px;
+	left: 3px;
+	background-size: 14px 14px;
+	background:url(./img/iCourseIco.png) no-repeat 0px 0px; 
+	-webkit-transform:scale(0);
+}
+#btn .active{
+	-webkit-transform:scale(1);
+}
+#zoom{
+/*	transition: 0.2s;*/
+	width: 144px;
+	height: 172px;
+	background: url(./img/iZoom.png) no-repeat;
+	background-size: contain;
+	position: absolute;
+	top: 0;
+	left: 0px;
+	z-index: 2;
+}
+#show{
+	position: absolute;
+	width: 98px;
+	height: 98px;
+    overflow: hidden;
+    /*z-index: 3;*/
+	background: url(./img/iZoomGlass.png), rgb(232, 208, 202);
+
+	border-radius: 50%;
+    top: 2px;
+	left: 43px;
+
+
+}
+.zactive{
+	transform-origin:left bottom;
+	-webkit-transform:rotate(48deg);
+}
+
+#show img{
+/*	transition: .2s;*/
+	opacity: .8;
+	position: absolute;
+	top: 6px;
+	left: 0px;
+	margin-left:75px;
+}
+#pic_wrap{
+	height: 100px;
+}
+
+</style>
+</head>
+<body>
+	<div class="zoom_box">
+		<div id="pic_wrap">
+			<ul id="pic">
+				<li class="active">
+					<img src="./img/iBannerText.png" alt="">
+				</li>
+				<li>
+					<img src="./img/iBannerText2.png" alt="">
+				</li>
+				<li>
+					<img src="./img/iBannerText3.png" alt="">
+				</li>
+			</ul>
+
+			<section id="zoom" class="">
+				<div id="show">
+					<img id="bigImg" src="./img/iBannerTextBig.png" alt="">
+				</div>				
+			</section>
+
+		</div>
+
+		<ul id="text">
+			<li class="active">
+				<h4>站在这一天？</h4>
+				<span>只剩下结果，可惜没如果</span>
+			</li>
+			<li>
+				<h4>在这一霎那！</h4>
+				<span>只剩下结果，可惜没如果</span>
+			</li>
+			<li>
+				<h4>不是EXO的咆哮</h4>
+				<span>只剩下结果，可惜没如果</span>
+			</li>
+		</ul>
+		<ul id="btn">
+			<li>			
+				<span class="active"></span>				
+			</li>
+			<li>				
+					<span></span>				
+			</li>
+		    <li>				
+					<span></span>				
+			</li>			
+		</ul>		
+	</div>
+</body>
+<script>
+
+var box=document.getElementsByClassName("zoom_box")[0];
+var opic=document.getElementById('pic');
+var imgs=opic.getElementsByTagName('li');
+var otext=document.getElementById('text');
+var tes=otext.getElementsByTagName('li');
+var obtn=document.getElementById('btn');
+var blis=obtn.getElementsByTagName('li');
+var spans=obtn.getElementsByTagName('span');
+
+var wrap=document.getElementById("pic_wrap");
+
+var zoom=document.getElementById("zoom");
+var bimg=document.getElementById("bigImg");
+
+var inow=0;
+var onoff=true;
+
+
+var arrimg=["./img/iBannerTextBig.png","./img/iBannerTextBig2.png","./img/iBannerTextBig3.png"];
+for(var i=0;i<blis.length;i++)
+{   
+   
+	blis[i].index=i;
+   
+	blis[i].addEventListener("click",function(){
+		if(onoff){
+ 			onoff=false;
+         	bimg.style.transition=".3s";
+ 			bimg.style.opacity="0";
+ 			bimg.src=arrimg[this.index];
+ 			zoom.style.transition=".3s";
+ 			zoom.className="zactive";
+			zoom.addEventListener("webkitTransitionEnd",zoomEnd);
+			var that=this;
+	        imgs[this.index].style.transition=".7s";
+	        imgs[this.index].className="active";
+			imgs[inow].className="hidden";
+			imgs[inow].addEventListener("webkitTransitionEnd",imgEnd);
+
+			tes[this.index].style.transition=".9s";
+	        tes[this.index].className="active";
+			tes[inow].className="hidden";
+
+			tes[inow].addEventListener("webkitTransitionEnd",tesEnd);
+			
+		
+			spans[inow].className="";
+	        spans[this.index].className="active";
+			
+		       setTimeout(function(){
+		       	inow=that.index;
+		       	onoff=true;
+		       },920)
+			
+	    }
+		
+	})
+}
+
+
+function tesEnd(){
+
+	tes[inow].removeEventListener("webkitTransitionEnd",tesEnd);
+    tes[inow].style.transition="0s";
+	tes[inow].className="";
+	  
+}
+function zoomEnd(){
+
+	zoom.removeEventListener("webkitTransitionEnd",zoomEnd);
+	setTimeout(function(){
+		 zoom.style.transition=".5s";
+	     zoom.className="";
+
+
+	},300)
+	setTimeout(function(){
+        bimg.style.transition=".5s";
+		bimg.style.opacity=1;
+		move=false;
+	     
+	},500)
+   
+	  
+}
+function imgEnd(){
+
+	imgs[inow].removeEventListener("webkitTransitionEnd",imgEnd);
+    imgs[inow].style.transition="0s";
+	imgs[inow].className="";
+
+}
+
+wrap.onmouseenter=function(ev){
+	 zoom.style.transition="1s";
+	var left=ev.clientX-box.offsetLeft-imgs[0].offsetLeft;
+    var scale=left/imgs[0].offsetWidth;
+    zoom.style.left=left+30+"px";
+
+	bimg.style.left=-424*scale-35+"px";	
+}
+
+wrap.onmousemove=function(ev){
+
+	 zoom.style.transition=".1s";
+	 bimg.style.transition=".1s";
+    var left=ev.clientX-box.offsetLeft-imgs[0].offsetLeft;
+    var scale=left/imgs[0].offsetWidth;
+
+    // console.log(left);
+   
+     if (left<-30) {
+    	left=-30;
+    	zoom.style.left=left+30+"px";
+    	bimg.style.left="0px";
+
+    }
+    else if (left>420) {
+    	left=420;
+    	zoom.style.left=left+30+"px";
+
+	    bimg.style.left=-424*scale-35+"px";
+    }
+    else{
+    	zoom.style.left=left+30+"px";
+
+	    bimg.style.left=-424*scale-35+"px";
+    }
+
+    // console.log(left);
+}
+wrap.onmouseleave=function(){
+
+	zoom.style.transition="1s";
+  	bimg.style.transition="1s";
+	zoom.style.left="0px";
+    bimg.style.left="0px";
+}
+
+</script>
+</html>

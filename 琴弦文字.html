@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+body{
+	margin:0;
+}
+ul{
+	list-style: none;
+	padding:0;
+	margin: 0;
+
+}
+.text_list{
+	margin: 100px auto;
+	width: 360px;
+}
+.text_list li{
+	height: 64px;
+	margin-bottom: 10px;
+	line-height: 64px;
+	font-size: 18px;
+	border: 1px solid orange;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;	
+/*	1.使用overflow: hidden把超出的内容进行隐藏；
+2.然后使用white-space: nowrap设置内容不换行；
+3.最后使用text-overflow: ellipsis设置超出内容为省略号。*/
+} 
+.text_list span{
+	line-height: 26px;
+/*	font-size: 18px;*/
+
+
+}
+</style>
+</head>
+<body>
+	<ul class="text_list">
+		<li>为我Loco转没想到女盆友的主唱声音还不错 </li>
+		<li>为我Loco转没想到女盆友的主唱声音还不错 </li>
+		<li>为我Loco转没想到女盆友的主唱声音还不错 </li>
+		<li>为我Loco转没想到女盆友的主唱声音还不错 </li>
+		<li>为我Loco转没想到女盆友的主唱声音还不错 </li>
+		<li>为我Loco转没想到女盆友的主唱声音还不错 </li>
+		<li>为我Loco转没想到女盆友的主唱声音还不错 </li>
+	</ul>
+</body>
+<script src="m.Tween2.js"></script>
+<script>
+window.onload=function(){
+	var text_list=document.getElementsByClassName('text_list')[0];
+	var ali=text_list.children;
+
+	var startTop=0;
+	var startEv=0;
+	
+	for(var i=0;i<ali.length;i++)
+	{   
+		var inner=ali[i].innerHTML;
+	
+		ali[i].innerHTML="";
+		for(var j=0;j<inner.length;j++)
+		{
+			ali[i].innerHTML+="<span>"+inner[j]+"</span>";
+		}
+		var spans=ali[i].children;
+		
+		for(var t=0;t<spans.length;t++)
+		{
+			spans[t].style.top=spans[t].offsetTop+"px";
+			spans[t].style.left=spans[t].offsetLeft+"px";
+			spans[t].top=spans[t].offsetTop;// 得到初始位置。
+		}
+		for(var k=0;k<spans.length;k++)
+		{   spans[k].index=k;
+			spans[k].style.position="absolute";
+			(function(spans){ //将每个span都发到函数内部。
+
+
+	            var inow=1;
+				spans[k].onmouseover=function(ev){
+					 startTop=this.offsetTop;
+					 startEv=ev.clientY;
+					
+	       			
+				}
+				spans[k].onmousemove=function(ev){
+	       			
+	       			var dis=ev.clientY-startEv;
+	       			
+	       			if (dis>0) {
+	       				inow=1;
+	       			}
+	       			else{
+	       				inow=-1;
+	       			}
+	       			if (ev.clientY>28+this.top) {
+	       				
+	       				// this.style.top=this.top+24+"px";
+	       				for(var x=0;x<spans.length;x++)
+		       			    {
+
+		       			    	spans[x].style.top=this.top+24-inow*Math.abs(this.index-x)/1.5+"px";
+		       			    }  
+
+	       			}
+	       			else if (ev.clientY<-8+this.top) {
+	       				// this.style.top=this.top-24+"px";
+	       				for(var x=0;x<spans.length;x++)
+		       			    {
+
+		       			    	spans[x].style.top=this.top-24-inow*Math.abs(this.index-x)/1.5+"px";
+		       			    }  
+	       			}
+	                else{
+	                	// this.style.top=dis+startTop+"px";
+	                	
+		       				for(var x=0;x<spans.length;x++)
+		       			    {
+
+		       			    	spans[x].style.top=startTop+inow*(Math.abs(dis)-Math.abs(this.index-x))+"px";
+		       			    }       			       			    
+	                }	       		
+				}
+				spans[k].onmouseout=function(){
+					for(var x=0;x<spans.length;x++)
+		       			    {
+
+		       			    	MTween({
+		       			    		el:spans[x],
+		       			    		target:{
+		       			    			top:spans[x].top
+		       			    		},
+		       			    		time:200,
+		       			    		type:"elasticOut"
+		       			    	});
+		       			    }      
+				}
+			})(spans)	
+		}		
+	}
+}
+</script>
+
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+body,html{
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	overflow: hidden;
+}
+#mask{
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: url(./img/bg1.jpg);
+	width: 100%;
+	height: 100%;
+	background-size: 100% 100%;
+}
+ul{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+#list_b{
+	position: absolute;
+	top: 250px;
+}
+#list_b .active{
+	left: 0;
+	background: #8DEEEE;
+}
+#list_b li{
+	transition: .3s;
+	height: 30px;
+	width: 170px;
+	background: #6CA6CD;
+	font-size: 14px;
+	letter-spacing: 0px;
+	text-align:left;
+	line-height: 30px;
+	margin-bottom: 5px;
+	position: relative;
+	left: -130px;
+	z-index: 2;
+}
+#list_b li:hover{
+	left: 0;
+}
+#list_b li span{
+	position: absolute;
+	color: white;
+	right: 3px;
+	font-weight: bold;
+}
+.show{
+	position: absolute;
+	
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	
+}
+#list_p{
+
+	transform-style: preserve-3d;
+	width: 100%;
+	height: 100%;
+	transition: 3s;
+	
+}
+
+#list_p li{
+   	opacity: 0;
+	position: absolute;
+	top:0;
+	width: 100%;
+	height: 100%;
+
+}
+.active1{
+	opacity: 1 !important;
+	-webkit-transform:rotateY(0deg); 
+}
+#list_p .pre{
+	opacity: 1 !important;
+	left: -100%;
+	transform-origin: right;
+	-webkit-transform:rotateY(90deg); 
+}
+/*#list_p li:nth-of-type(3){
+	left: 0;
+	
+	-webkit-transform:translateZ(1000px); 
+}*/
+#list_p .next{
+	opacity: 1 !important;
+	left: 100%;
+	transform-origin:left;
+	-webkit-transform:rotateY(-90deg); 
+}
+#list_p li img{
+	width:100%;
+	height: 100%;
+}
+</style>
+</head>
+<body>
+	<div id="mask"></div>
+	<div class="btns">
+		<ul id="list_b">
+			<li class="active">从来只是腻味的消遣
+				<span>I</span>
+			</li>
+			<li>只是不耻关心多一点
+				<span>II</span>
+			</li>
+			<li>可惜只敢腻味的肤浅
+				<span>III</span>
+			</li>
+			<li>承认了宿命输给时间
+				<span>IIII</span>
+			</li>
+		</ul>
+	</div>
+	<div class="show">
+		<ul id="list_p">
+			<li class="active1">
+				<img src="./img/1.jpg" alt="">
+			</li>
+
+			<li>
+				<img src="./img/2.jpg" alt="">
+			</li>
+
+			<li>
+				<img src="./img/3.jpg" alt="">
+			</li>
+
+			<li>
+				<img src="./img/4.jpg" alt="">
+			</li>
+		</ul>
+	</div>
+</body>
+</html>
+
+
+<script>
+var width=0;
+window.onresize=function(){
+   width=document.documentElement.clientWidth;
+}
+window.onload=function(){
+    width=document.documentElement.clientWidth;
+    var show=document.getElementsByClassName('show')[0];
+    var pic=document.getElementById('list_p');
+    show.style.WebkitPerspective=width/2+"px";
+    pic.style.transformOrigin="center center "+width/2+"px";
+    var btn_list=document.getElementById("list_b");
+    var blis=btn_list.getElementsByTagName('li');
+    var inow=0;
+    var plis=pic.getElementsByTagName('li');
+    var that1;
+    var that2;
+    var onoff=true;
+    for(var i=0;i<blis.length;i++)
+    {   
+    	blis[i].index=i;
+    	blis[i].onclick=function(){
+    		if (onoff) {
+	    		pic.style.transition="3s";
+	    		onoff=false;
+	    		if (inow<this.index) {
+	    			that1=this;    			
+	    			blis[inow].className="";		
+		    		plis[this.index].className="next";
+		    		pic.style.webkitTransform="rotateY(90deg)";
+		    		inow=this.index;
+		    		this.className="active";
+		    	    pic.addEventListener("webkitTransitionEnd",end1);		
+	    	    }
+	    	    else if (inow==this.index) {
+	    	    	onoff=true;
+	    	    	return;
+	    	    }
+	    	    else{
+	    	    	that2=this;    			
+	    			blis[inow].className="";			
+		    		plis[this.index].className="pre";
+		    		pic.style.webkitTransform="rotateY(-90deg)";
+		    		inow=this.index;
+		    		this.className="active";	    		
+		    	    pic.addEventListener("webkitTransitionEnd",end2);
+	    	    }
+    	    }
+
+    		
+    	}
+    }
+    function end1(){
+    	pic.removeEventListener("webkitTransitionEnd",end1);
+    	setTimeout(function(){    	
+	    	for(var i=0;i<plis.length;i++)
+	    	{
+	    		plis[i].className="";
+	    	}
+	    	
+	    	pic.style.transition="none";
+	    	pic.style.webkitTransform="rotateY(0deg)";
+
+	    	plis[that1.index].className="active1";
+	    	onoff=true;
+	    	},200);	
+        }
+    function end2(){
+    	pic.removeEventListener("webkitTransitionEnd",end2);
+    	setTimeout(function(){    	
+	    	for(var i=0;i<plis.length;i++)
+	    	{
+	    		plis[i].className="";
+	    	}
+	    	
+	    	pic.style.transition="none";
+	    	pic.style.webkitTransform="rotateY(0deg)";
+
+	    	plis[that2.index].className="active1";
+	    	onoff=true;
+	    },200);	
+    }
+
+}
+
+
+
+</script>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+*{
+	padding: 0px;
+	margin: 0px;
+}
+li{
+	list-style: none;
+}
+
+#show{
+	width: 1150px;
+	margin: 60px auto;
+	position: relative;
+}
+#show li{
+	width: 370px;
+	height: 260px;
+	margin-right:12px;
+	margin-bottom: 12px;
+	float: left;
+/*	background: red;*/
+}
+#show img{
+	margin:2px;
+	width: 366px;
+	height: 256px;
+}
+#btn{
+	position: absolute;
+    top: -40px;
+    width: 80px;
+    height: 30px;
+    background: #778899;
+    border: none;
+    font-size: 16px;
+    color: white;
+    line-height: 30px;
+    letter-spacing: 8px;
+    font-style: italic;
+    left: 515px;
+    cursor: pointer;
+    outline: none;
+}
+</style>
+</head>
+<body>
+	<div id="box">
+		<ul id="show">
+			<li>
+				<img src="./img/1.jpg" alt="">
+			</li>
+			<li>
+				<img src="./img/2.jpg" alt="">
+			</li>
+			<li>
+				<img src="./img/3.jpg" alt="">
+			</li>
+			<li>
+				<img src="./img/4.jpg" alt="">
+			</li>
+			<li>
+				<img src="./img/5.jpg" alt="">
+			</li>
+			<li>
+				<img src="./img/6.jpg" alt="">
+			</li>
+			<li>
+				<img src="./img/7.jpg" alt="">
+			</li>
+			<li>
+				<img src="./img/8.jpg" alt="">
+			</li>
+			<li>
+				<img src="./img/9.jpg" alt="">
+			</li>			
+			<input id="btn" type="button" value="随机">
+		</ul>
+	
+	</div>
+</body>
+<script src="./js/move.js"></script>
+<script>
+window.onload=function(){
+	var ali=document.getElementsByTagName('li');
+	var oul=document.getElementById("show");
+    var arr=[];
+    var btn=document.getElementById("btn");
+
+    
+    var zindex=2;
+
+	for(var i=0; i<ali.length;i++)
+	{
+	    arr[i]=[];
+        arr[i].push(ali[i].offsetLeft,ali[i].offsetTop);
+	}
+
+	for(var i=0; i<ali.length;i++){
+		ali[i].style.position="absolute";
+		ali[i].style.left=arr[i][0]+"px";
+		ali[i].style.top=arr[i][1]+"px";
+		ali[i].style.margin="0px";
+	}//这个方法叫布局转换：由普通的float布局变成了定位布局，才能进行下面的碰撞检测和相应的移动！
+	var arrnum=[0,1,2,3,4,5,6,7,8]
+    btn.onclick=function(){
+    	arrnum.sort(function(a,b){
+    		return Math.random()-0.5;
+    	})
+    	for(var i=0; i<ali.length ;i++){
+    		var kim=arrnum[i];
+            startMove(ali[i],{left:arr[kim][0],top:arr[kim][1]});
+            ali[i].index=kim;
+    	}
+    }
+
+
+    for(var i=0; i<ali.length;i++){
+
+    	ali[i].index=i;
+        ali[i].onmousedown=function(ev){
+        	zindex++;
+        	this.style.zIndex=zindex;       	
+            var that=this;
+            var ev=ev||event;
+            var dix=ev.clientX-this.offsetLeft;
+            var diy=ev.clientY-this.offsetTop;
+     
+            if (this.setCapture) {
+                this.setCapture();
+            }
+
+            document.onmousemove=function(ev){
+                var ev=ev||event;
+                var left=ev.clientX-dix;
+                var top=ev.clientY-diy;    
+                that.style.left=left+"px";
+                that.style.top=top+"px";
+                getli(that);                                                            
+            }
+       
+            document.onmouseup=function(){
+                var li=getli(that);
+                // console.log(li);               
+                var temp=0;            
+                document.onmouseup=document.onmousemove="";
+                if (li) {
+	                startMove(that,{left:arr[li.index][0],top:arr[li.index][1]});
+	                startMove(li,{left:arr[that.index][0],top:arr[that.index][1]});
+	                li.style.background="white";
+	                temp=that.index;
+	                that.index=li.index;
+	                li.index=temp;
+	                
+                }
+                else{//li为false,代表没有发生碰撞！
+
+                	startMove(that,{left:arr[that.index][0],top:arr[that.index][1]});
+                }
+
+                if (that.relaease) {
+                   that.relaease();
+                }
+            }
+            
+            return false;
+	    }
+    }
+
+    function getli(obj){
+    	
+        var index=9999;
+		var x=-1;
+        for(var i=0;i<ali.length;i++){
+        	
+        	 // if (i==obj.index) {
+        	 // 	  console.log(i);
+        	 	  
+        	 // }     		
+        		// else{   不能分开做判断，会导致交换位置过后的图片不能再把位置交换回来！出现这个问题的原因未知。
+        			
+        	if(pz(obj,ali[i])&&ali[i]!=obj) {//这里也只能用ali[i]！=obj这个判断条件，i!=obj.index也不能用！
+        	    var a=ali[i].offsetLeft-obj.offsetLeft;
+			    var b=ali[i].offsetTop-obj.offsetTop;
+			    var c=Math.sqrt(a*a+b*b);			        			       			        
+			    if(c<index) {
+			       index=c;			        	
+			       x=i;
+			    }			       			        
+            }    
+        		// }      
+        		ali[i].style.background="white";  		                                                                                                   	           
+        }
+        if (x==-1) {//代表for循环结束了，还没有发生碰撞！这个返回值就说明了它是否发生了碰撞
+        	return false;
+        }
+        else{
+        	ali[x].style.background="red";  //for循环结束后的X值才能用啊！
+        	return ali[x];
+        }                              
+    }
+
+    function pz(obj,obj1){
+    	var l1=obj.offsetLeft;           
+	    var l2=obj1.offsetLeft;
+	    var t1=obj.offsetTop;
+	    var t2=obj1.offsetTop;
+	    var r1=l1+obj.offsetWidth;
+	    var r2=obj1.offsetLeft+obj1.offsetWidth;
+	    var b1=t1+obj.offsetHeight;
+	    var b2=obj1.offsetTop+obj1.offsetHeight;
+	    	       
+	    if (r1>l2&&b1>t2&&l1<r2&&t1<b2) {
+	    	return true;
+	    }
+	    else{
+	    	return false;
+	    }	    
+    }
+
+}
+</script>
+</html>
+
+ 

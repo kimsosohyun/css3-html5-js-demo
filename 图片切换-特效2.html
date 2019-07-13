@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+@-webkit-keyframes hidden{
+
+0%{  
+	opacity: 1;
+    -webkit-transform:rotateX(0deg);
+
+}
+100%{
+	opacity: 0;
+	-webkit-transform:rotateX(-180deg);
+}
+}
+
+@-webkit-keyframes show{
+
+0%{
+	opacity: 0;
+    -webkit-transform:rotateX(180deg);
+
+}
+60%{
+	opacity: 0.6;
+	-webkit-transform:rotateX(-10deg);
+}
+70%{
+	opacity: 0.7;
+	-webkit-transform:rotateX(8deg);
+}
+80%{
+	opacity: 0.8;
+	-webkit-transform:rotateX(-6deg);
+}
+90%{
+	opacity: 0.9;
+	-webkit-transform:rotateX(4deg);
+}
+100%{
+	opacity: 1;
+	-webkit-transform:rotateX(0deg);
+}
+
+
+}
+
+.box{
+	position: relative;
+	width: 800px;
+/*	height: 700px;*/
+/*	border: 2px solid black;*/
+	margin: 80px auto;
+}
+ul{
+	padding: 0px;
+	margin: 0px;
+}
+li{
+	list-style: none;
+}
+img{
+	padding: 0px;
+	margin: 0px;
+}
+#list{
+	position: relative;
+	width: 800px;
+	height: 500px;
+	perspective: 500px;
+	-webkit-transform-style: preserve-3d;
+
+}
+#list li{
+	-webkit-transform-origin: bottom; /*无论是hidden还是show两种方式的基点都是图片的底部。*/
+	position: absolute;
+	top: 0px;
+	left: 50px;
+	opacity: 0;
+}
+#list .active
+/*必须加上#list他的优先级才高于#list li ,opacity:1;才能实现。*/
+{
+	opacity: 1;
+}
+.img{
+	width: 700px;
+	height: 500px;
+}
+.show{	   
+	    animation: 1.8s show linear;
+		-webkit-transform:rotateX(0deg);
+		 opacity: 1;		
+}
+
+.hidden{
+	animation: 1.2s hidden linear;
+	-webkit-transform:rotateX(-180deg);
+	opacity: 0;
+
+}
+.box input{
+	position: absolute;
+	font-size: 20px;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	outline: none;
+	background: rgba(221,201,254,0.8);
+	opacity: 0.8;
+	border: none;
+}
+.box input:nth-of-type(1){
+	top: 235px;
+	left: 30px;
+}
+.box input:nth-of-type(2){
+	top: 235px;
+	right: 30px;
+}
+
+
+	</style>
+</head>
+<body>
+	<div class="box">
+		<ul id="list">
+			<li class="active"><img class="img" src="./images/7.jpg" alt=""></li>
+			<li><img class="img" src="./images/1.jpg" alt=""></li>
+			<li><img class="img" src="./images/4.jpg" alt=""></li>
+			<li><img class="img" src="./images/5.jpg" alt=""></li>
+			<li><img class="img" src="./images/6.jpg" alt=""></li>
+		</ul>
+
+		<input type="button" value="<">
+
+		<input type="button" value=">">
+
+
+
+	</div>
+  	
+</body>
+<script>
+  var oul=document.getElementById('list');
+  var ali=oul.getElementsByTagName("li");
+  var abtn=document.getElementsByTagName('input');
+  var num=0;
+
+
+
+abtn[0].onclick=function(){
+
+ali[num].className="hidden";//同时清除ali[num]的俩个class名。
+num--;
+if (num==-1) {
+	num=ali.length-1;
+}
+ali[num].className="show active";//命名class: show active顺序可以改变。
+
+}  
+
+abtn[1].onclick=function(){
+
+ali[num].className="hidden";
+num++;
+if (num==ali.length) {
+	num=0;
+}
+ali[num].className="active show";
+
+}
+
+
+
+
+</script>
+</html>

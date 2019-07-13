@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style id="css">
+	ul{
+		margin: 0px;
+		padding: 0px;
+
+	}
+	li{
+		list-style: none;
+	}
+.box{
+	width: 1036px;
+	border: 2px solid black;
+	margin: 80px auto;
+	position: relative;
+}		
+
+#show{
+	width: 1000px;
+    margin: 0 auto;
+    height: 768px;
+    position: relative;
+    -webkit-transform-style:preserve-3d;
+    perspective: 768px;
+ /*   perspective-origin: left;*/
+}
+.li1{
+	-webkit-transform-style:preserve-3d;
+	width: 50px;
+	height: 768px;
+	float: left;
+	position: relative;
+	transition: 1s;
+	-webkit-transform-origin: center center -384px;
+
+}
+.li1 div{
+	width: 50px;
+	height: 768px;
+	position: absolute;
+	top: 0px
+
+	left:0px;
+
+}
+.li1 div:nth-of-type(1){
+	z-index:1;
+ background: url(./images/1.jpg) ;
+}
+
+.li1 div:nth-of-type(2){
+top: -768px;
+ background: url(./images/2.jpg);
+ -webkit-transform-origin: bottom;
+ -webkit-transform:rotateX(90deg);
+
+}
+
+.li1 div:nth-of-type(3){
+	top: 0px;
+	left: 0px;
+ background: url(./images/3.jpg);
+/*  -webkit-transform-origin: bottom;*/
+/* -webkit-transform:rotateX(180deg);*/
+
+-webkit-transform:translateZ(-768px) rotateX(180deg);
+/*必须是以上代码，顺序不能变，后写的先执行，也就是先翻转，再后移，底部图片才会正着显示。*/
+
+}
+
+.li1 div:nth-of-type(4){
+ background: url(./images/4.jpg);
+top: 768px;
+ -webkit-transform-origin: top;
+  -webkit-transform:rotateX(-90deg);
+}
+
+#btn1{
+	border: none;
+	width: 18px;
+	height: 768px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	font-size: 20px;
+/*	color: red;*/
+	font-weight: bold;
+	background: rgba(221,220,254,0.5);
+}
+#btn2{
+		border: none;
+	width: 18px;
+	height: 768px;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	font-size: 20px;
+	font-weight: bold;
+	background: rgba(221,220,254,0.5);
+}
+/*#show span{
+	width: 768px;
+	height: 768px;
+	position: absolute;
+	background: #eee;
+
+
+}
+#show span:nth-of-type(1){
+	left: 0px;
+		z-index: 0;
+   -webkit-transform-origin: left;
+  -webkit-transform:rotateY(90deg);
+  
+}
+#show span:nth-of-type(2){
+	left: 50px;
+	-webkit-transform-origin:left;
+  -webkit-transform:rotateY(90deg);
+}
+*/  
+/* 我觉得用两个面来封住并没有什么用处，而且还会比变卡，所以就取消了*/
+
+
+/*#show li:nth-of-type(1) div{
+  background-position: 0px 0px;
+}
+#show li:nth-of-type(2) div{
+  background-position: -50px 0px;
+}
+*/
+/*#show li:nth-of-type("+(i+1)+") div{
+  background-position: -"+(i*50)+"px 0px;
+}
+*/
+
+
+
+	</style>
+</head>
+<body>
+	<div class="box">
+		<ul id="show">
+
+		<!-- 	<li class="li1">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				
+				<span></span>
+				<span></span>
+			</li>
+			<li class="li1">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				
+				<span></span>
+				<span></span>
+			</li>
+			<li class="li1">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+				
+				<span></span>
+				<span></span>
+			</li>
+ -->
+			
+		</ul>
+
+		
+			<input id="btn1" type="button" value="<">
+			<input  id="btn2" type="button" value=">">
+	
+	</div>
+</body>
+<script>
+	
+var oul=document.getElementById('show');
+var length=1024/50;
+var ocss=document.getElementById('css');
+var btn1=document.getElementById("btn1");
+var btn2=document.getElementById("btn2");
+
+
+for(var i=0;i<length-1;i++)
+{
+	oul.innerHTML+='<li class="li1"><div></div><div></div><div></div><div></div></li>';
+ocss.innerHTML+="#show li:nth-of-type("+(i+1)+") div{  background-position: -"+(i*50)+"px 0px;}"
+
+}
+var num=0;
+  	var lis=oul.children;
+
+  btn1.onclick=function(){
+
+  	num+=90;
+  // alert(num);
+  for(var i=0;i<lis.length;i++)
+  {
+        lis[i].style.transition=1+0.1*i+"s";
+  		lis[i].style.WebkitTransform="rotateX("+(-num)+"deg)";
+  }
+  	  }
+
+  	   btn2.onclick=function(){
+ 
+  
+  	num-=90;
+  	// alert(num);
+  for(var i=0;i<lis.length;i++)
+  {
+        lis[i].style.transition=1+0.1*i+"s";
+  		lis[i].style.WebkitTransform="rotateX("+(-num)+"deg)";
+
+  }
+  	  }
+
+</script>
+</html>

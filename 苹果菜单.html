@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+*{
+	margin: 0px;
+	padding: 0px;
+}
+#box{
+	width: 100%;
+/*	background: pink;*/
+	height: 360px;
+	position: absolute;
+	bottom: 0px;
+	text-align: center;
+}	
+.img{
+	position:relative;
+	width: 64px;
+	height: 64px;
+	bottom: -220px;
+	margin-right: 10px;
+}
+
+
+
+
+
+
+</style>
+
+</head>
+<body>
+	<div id="box">
+		<img class="img" src="./images/1.png" alt="">
+		<img class="img" src="./images/2.png" alt="">
+		<img class="img" src="./images/3.png" alt="">
+		<img class="img" src="./images/4.png" alt="">
+		<img class="img" src="./images/5.png" alt="">
+	</div>
+</body>
+<script>
+window.onload=function(){
+	var aimg=document.getElementsByTagName('img');
+	var odiv=document.getElementById('box');
+    odiv.onmousemove=function(ev){//onmosemove必须要写在for循环外面，不然函数内部get不到i!就没法给每个元素添加宽高。
+	for(var i=0; i<aimg.length ;i++ )
+	    {   
+
+	    // console.log(aimg[i].offsetTop); //236!说明offsetTop并不是到可视区的高度，而是到有定位的父级的高度！当父级没有定位的时候offsetTop才是到可视区的高度。
+	    // offsetLeft:左边框到有定位父级的左内边框的距离！
+        var x=aimg[i].offsetWidth/2+aimg[i].offsetLeft;
+        var y=aimg[i].offsetHeight/2+aimg[i].offsetTop+odiv.offsetTop              
+        	var ev=ev||event;
+        	var a=ev.clientX-x;
+        	var b=ev.clientY-y;
+        	var c=1-getC(a,b)/580;//距离鼠标越远getC(a,b)/580越大，但是元素宽高要越小，所以要用1—getC(a,b)/580;
+        	// console.log(c);
+        	if (c<0.5) {
+        		c=0.5;
+        	}
+        	
+        	aimg[i].style.width=c*128+"px";
+        	aimg[i].style.height=c*128+"px";
+        }
+	}
+
+	function getC(a,b){//勾股定理
+		return Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
+	}
+}
+</script>
+</html>

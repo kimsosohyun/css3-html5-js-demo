@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+@-webkit-keyframes open{
+	0%{
+		-webkit-transform:rotateX(-120deg);
+	}
+     
+    20%{
+    	-webkit-transform:rotateX(-50deg);
+    }
+    40%{
+    	-webkit-transform:rotateX(0deg);
+    }
+    60%{
+    	-webkit-transform:rotateX(20deg);
+    }
+    80%{
+    	-webkit-transform:rotateX(-20deg);
+    }
+	100%{
+		-webkit-transform:rotateX(0deg);
+	}
+}
+@-webkit-keyframes down{
+	0%{
+		-webkit-transform:rotateX(0deg);
+	}
+     
+  
+    
+	100%{
+		-webkit-transform:rotateX(-120deg);
+	}
+}
+body{
+	margin: 0;
+}
+.box{
+
+	width: 240px;
+	/*height: 500px;*/
+	/*background: orange;*/
+	margin:100px auto;
+	position: relative;
+	perspective: 400px;
+	transform-style: preserve-3d;
+
+}
+
+/*ul{
+	perspective: 200px;
+	
+		-webkit-transform:rotateX(30deg)
+}
+li{
+	width: 100%;
+	height: 50px;
+	margin-bottom: 6px;
+	border:1px solid black;
+
+}*/
+.box h2{
+	transform-origin: top;
+	/*-webkit-transform:rotateY(14deg);*/
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	padding: 0;
+	margin:0;
+	display: block;
+	border: 2px solid black;
+	box-sizing: border-box;
+	height: 50px;
+	line-height: 50px;
+	font-size: 22px;
+	text-align: center;
+	background: orange;
+}
+.box div{
+	-webkit-transform:rotateX(-120deg);
+	transform-origin: top;
+	position: absolute;
+	z-index: 1;
+	top: 40px;
+	width: 100%;
+	height: 30px;	
+	text-indent: 6px;  
+	transform-style: preserve-3d;
+}
+
+.open{
+  -webkit-animation:2s  open linear;
+  animation-fill-mode:forwards;
+
+}
+.open span:nth-of-type(1){
+	box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
+
+}
+.down {
+	-webkit-animation:.8s  down linear;
+  animation-fill-mode:forwards;
+}
+.down span:nth-of-type(1){
+	box-shadow: inset 0 0 10px rgba(0,0,0,1);
+
+}
+
+.box div span{
+	transform-origin: top;
+	background: #eee;
+	transition: .3s;
+	display: block;
+	width: 100%;
+	line-height: 30px;
+	font-size: 16px;
+	box-shadow: inset 0 0 10px rgba(0,0,0,1);
+	
+}
+.box>div{
+
+	margin-top: 10px;
+}
+.box span:hover{
+	background: pink;
+	text-indent: 20px;
+	font-style: italic;
+}
+#end span{
+		
+	letter-spacing: 95px;
+}
+#end span:hover{
+	background: pink;
+	text-indent: -2px;
+	font-style: normal;
+	color: red;
+	font-weight: bold;
+	font-size: 24px;
+}
+
+</style>
+</head>
+<body>
+	<div class="box">
+		<h2>Talking to the Moon</h2>
+		<div>
+			<span>Try to get to You</span>
+			<div>
+				<span>Oh Am I A fool</span>
+			    <div>
+					<span>I've gone mad</span>
+					<div>
+						<span>someone's talking back</span>
+						<div>
+							<span>At night when the stars</span>
+							<div id="end">
+								<span>^^^</span>
+							
+						    </div>
+					    </div>
+				    </div>
+		        </div>
+		    </div>
+		</div>		
+	</div>
+
+
+</body>
+
+<script>
+var box=document.getElementsByClassName('box')[0];
+var h2=box.getElementsByTagName("h2")[0];
+var adiv=box.getElementsByTagName('div');
+var aspan=box.getElementsByTagName("span");
+var end=document.getElementById('end');
+var timer1=null;
+var timer2=null;
+var off=true;
+var left=box.offsetLeft;
+	
+box.style.height=h2.offsetHeight+adiv.length*(10+adiv[0].offsetHeight)+'px';
+
+h2.addEventListener("mouseover",function(){
+	   if (off) {
+		   var i=0;
+		   clearInterval(timer1);
+		   timer1=setInterval(function(){
+
+			   	adiv[i].className="open";
+			   	i++;
+			   	if (i==adiv.length) {
+			   		clearInterval(timer1);
+			   		off=false;
+			   		for(var j=0;j<aspan.length;j++)
+			   			{    
+			   				aspan[j].style.transition=".2s";
+			   			}
+			   		h2.style.transition=".2s";
+
+			   		box.onmouseover=function(ev){
+			   			if (ev.clientX-left>aspan[0].offsetWidth/2) {
+			   				h2.style.WebkitTransform="rotateY(14deg)";
+			   				for(var j=0;j<aspan.length;j++)
+			   				{
+			   					aspan[j].style.WebkitTransform="rotateY(14deg)";
+			   				}
+			   				
+			   			}
+			   			else{
+			   				h2.style.WebkitTransform="rotateY(-14deg)";
+			   				for(var j=0;j<aspan.length;j++)
+			   				{
+			   					aspan[j].style.WebkitTransform="rotateY(-14deg)";
+			   				}
+			   			}
+			   		}	    	    		
+	    		
+	    			box.onmouseout=function(){
+	    				h2.style.WebkitTransform="rotateY(0deg)";
+	    				for(var j=0;j<aspan.length;j++)
+	    				{
+	    					aspan[j].style.WebkitTransform="rotateY(0deg)";
+	    				}
+	    		    }
+			   	}
+		    },100) 
+	   }		
+})
+
+end.addEventListener("click",function(){
+	   h2.style.WebkitTransform="rotateY(0deg)";
+	   for(var j=0;j<aspan.length;j++)
+	   {
+		aspan[j].style.WebkitTransform="rotateY(0deg)";
+	   }
+	   box.onmouseover=box.onmouseout="";
+	   var i=adiv.length-1;
+	   clearInterval(timer2);
+	   timer2=setInterval(function(){
+        adiv[i].style.transition="5s";
+	   	adiv[i].className="down";
+	   	i--;
+	   	if (i<0) {
+	   		clearInterval(timer2);
+	   		off=true;
+
+	   	}
+	    },100);
+})
+</script>
+</html>

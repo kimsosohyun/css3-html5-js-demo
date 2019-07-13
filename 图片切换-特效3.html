@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+@-webkit-keyframes show{
+	0%{
+		opacity: 1;
+		-webkit-transform:scale(1);
+	}
+	100%{
+		opacity: 0;
+		-webkit-transform:scale(3);
+	}
+}
+body{
+	margin: 0;
+	background: rgb(232, 208, 202);
+}
+ul{
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.picTab{
+	width: 600px;
+	height: 310px;
+	box-sizing: border-box;
+	border: 2px solid black;
+	margin: 100px auto;
+	position: relative;
+}
+#pic_list li{
+	
+	width: 281px;
+	height: 310px;
+	position: absolute;
+}
+#pic_list li:nth-of-type(1){
+	background: url(./img/iWorks_1.png);
+	top: 0;
+	left: 0;
+	z-index: 1;
+/*	-webkit-transform:scale(.8);*/
+}
+#pic_list li:nth-of-type(2){
+	background: url(./img/iWorks_2.png);
+	top: 0;
+	left:calc(50% - 140px);
+	z-index: 2;
+}
+#pic_list li:nth-of-type(3){
+	background: url(./img/iWorks_3.png);
+	top: 0;
+	left:calc(100% - 281px);
+	z-index: 1;
+/*	-webkit-transform:scale(.8); 改用js设置*/
+}
+#pic_list span{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	display: block;
+}
+#pic_list li:nth-of-type(1) span{
+	background: url(./img/iWorksBlur_1.png);
+	opacity: 1;
+}
+#pic_list li:nth-of-type(2) span{
+	background: url(./img/iWorksBlur_2.png);
+	opacity: 0;
+}
+#pic_list li:nth-of-type(3) span{
+	background: url(./img/iWorksBlur_3.png);
+	opacity: 1;
+}
+#left,#right{
+	position: absolute;
+	width: 18px;
+	height: 29px;
+	top: calc(50% - 15px);
+	z-index: 3;
+	cursor: pointer;
+}
+#left{
+	background: url(./img/iWorksPrev.png);
+	left: 90px;
+}
+#right{
+	background: url(./img/iWorksNext.png);
+	right: 90px;
+}
+#left:hover span:nth-of-type(1),#right:hover span:nth-of-type(1){
+	animation:2s show infinite;
+}
+#left:hover span:nth-of-type(2),#right:hover span:nth-of-type(2){
+	animation:2s 1s show infinite;
+}
+#left span{
+	position: absolute;
+	top:0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: url(./img/iWorksPrev.png);
+}
+#right span{
+	position: absolute;
+	top:0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: url(./img/iWorksNext.png);
+}
+</style>
+</head>
+<body>
+	<section class="picTab">
+		<ul id="pic_list">
+			<li>
+				<span></span>
+			</li>
+			<li>
+				<span></span>
+			</li>
+			<li>
+				<span></span>
+			</li>	
+		</ul>
+	    <div id="left">
+	    	<span></span>
+	    	<span></span>
+	    </div>
+		<div id="right">
+			<span></span>
+			<span></span>
+		</div>
+	</section>
+	
+</body>
+<script src="./js/m.Tween.js"></script>
+<script>
+window.onload=function(){
+	var pic=document.getElementById('pic_list');
+	var lis=pic.getElementsByTagName('li');
+	var spans=pic.getElementsByTagName('span');
+
+	var left=document.getElementById("left");
+	var right=document.getElementById("right");
+    var arr=[];
+	// var arr=[1,2,3];
+	// arr.unshift(arr.pop());
+	// console.log(arr);
+    css(lis[0],"scale",80);
+    css(lis[2],"scale",80);//用css()设置的才能用css()获得。
+
+	for(var i=0;i<lis.length;i++)
+	{
+		arr[i]={left:css(lis[i],"left"),opacity:css(spans[i],"opacity"),zIndex:css(lis[i],"z-index"),transform:css(lis[i],"scale")};
+	}
+	left.addEventListener("click",function(){
+		arr.push(arr.shift());//通过改变数组顺序，重新给每个Li设置样式。
+		tostyle(arr);
+	})
+
+	right.addEventListener("click",function(){
+		arr.unshift(arr.pop());
+		tostyle(arr);
+	})
+
+	function tostyle(arr){
+		for(var i=0;i<lis.length;i++)
+	    {   
+	    	lis[i].style.transition=".8s";
+	    	spans[i].style.transition=".8s";
+	    	lis[i].style.left=arr[i].left+"px";
+	    	lis[i].style.zIndex=arr[i].zIndex;
+	    	css(lis[i],"scale",arr[i].transform);
+	    	spans[i].style.opacity=arr[i].opacity/100;
+	    }
+
+	}
+	// console.log(arr);
+
+
+}
+</script>
+</html>

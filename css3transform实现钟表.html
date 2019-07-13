@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style id="css">
+#wrap{
+	width: 200px;
+	height: 200px;
+	border:3px solid black;
+	margin:100px auto;
+	border-radius: 50%;
+	position: relative;
+}
+#show{
+	width: 200px;
+	height: 200px;
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+	position: relative;
+}
+#show li{
+    position: absolute;
+    width: 4px;
+    height: 12px;
+    left: 98px;
+    background: black;
+  /*   -webkit-transform-origin:0px 0px; 由此可得第一个参数确定左右，第二个参数确定上下*/
+    -webkit-transform-origin:0px 100px;
+}
+#show li:nth-of-type(5n+1){
+	height: 18px;
+} /*1  6  11  …………*/
+	
+/*#show li:nth-of-type(2){-webkit-transform:rotate(6deg);}	
+#show li:nth-of-type(3){
+	-webkit-transform:rotate(12deg);
+	
+}	
+#show li:nth-of-type(4){
+	-webkit-transform:rotate(18deg);
+	
+}
+#show li:nth-of-type(5){
+	-webkit-transform:rotate(24deg);
+	
+}*/
+#hour{
+	width: 6px;
+	height: 30px;
+	background: black;
+	position: absolute;
+	left: 97px;
+	top: 70px;
+	 -webkit-transform-origin:bottom;
+}
+#min{
+   /*	-webkit-transform:rotate(24deg);*/
+	width: 4px;
+	height: 38px;
+	background: rgb(201,215,212);
+	position: absolute;
+	left: 98px;
+	top: 62px;
+	-webkit-transform-origin:bottom;
+}
+#sec{
+
+	width: 2px;
+	height: 44px;
+	background: red;
+	position: absolute;
+	left: 99px;
+	top: 56px;
+	-webkit-transform-origin:bottom;
+}
+#center{
+	width: 10px;
+	height: 10px;
+	background: black;
+	border-radius: 50%;
+	position: absolute;
+	top: 95px;
+	left: 95px;
+}
+
+
+	</style>
+</head>
+<body>
+	<div id="wrap">
+		<ul id="show">
+
+  
+  
+    
+		</ul>  
+	 <div id="hour"></div>
+     <div id="min"></div>
+     <div id="sec"></div>
+     <div id="center"></div>
+	</div>
+</body>
+
+<script>
+	var oul=document.getElementById('show');
+	var oh=document.getElementById("hour");
+	var om=document.getElementById('min');
+	var os=document.getElementById("sec");
+	var ocss=document.getElementById("css");
+
+
+
+
+
+for(var i=0;i<60;i++)
+{
+	
+oul.innerHTML+="<li></li>";
+
+ocss.innerHTML+="#show li:nth-of-type("+(i+1)+"){-webkit-transform:rotate("+(6*i)+"deg);}";
+// 你记住了，在需要给ul里的li用上述方法普及样式时，不要在UL里放什么div或者其他东西，否则BUG多的一匹，ul里只有这个类型的标签（li）才能进行普及。
+}
+
+time();
+ setInterval(
+  	time  
+  ,1000)
+
+
+
+function time (){
+
+var iNow=new Date();
+var isec=iNow.getSeconds();
+var imin=iNow.getMinutes()+isec/60;
+var ihor=iNow.getHours()+imin/60;
+
+os.style.WebkitTransform="rotate("+isec*6+"deg)";
+om.style.WebkitTransform="rotate("+imin*6+"deg)";
+oh.style.WebkitTransform="rotate("+ihor*30+"deg)";
+
+}
+
+
+
+
+</script>
+</html>
