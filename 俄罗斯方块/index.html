@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            margin: 0;
+        }
+        #bg{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background:url("./bg.jpg") ;
+            background-size:cover;
+            /*filter: blur(0.1px);*/
+            /*opacity: 0.8;*/
+        }
+        #canvas{
+            opacity: 0.8;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        }
+    </style>
+</head>
+<body>
+    <div id="bg"></div>
+    <canvas id="canvas" width="700" height="700"></canvas>
+</body>
+<script>
+    var ca=document.querySelector("#canvas");
+    if (ca.getContext){
+        var gc=ca.getContext("2d");
+        var model=[
+            [[1,1,1,1]],
+            [[1,1],[1,1]],
+            [[1,1,0],[0,1,1]],
+            [[0,1,1],[1,1,0]],
+            [[0,1,0],[1,1,1]],
+            [[1,0,0],[1,1,1]],
+            [[0,0,1],[1,1,1]]
+        ];
+        var arr=createArr(22);
+        var ex=createModel();
+        var steps=0;
+        var middle=Math.floor(arr.length/2)-1;
+        var x=middle;
+        var timer;
+        changeArr();
+        auto(400);
+        play();
+    }
+    function createArr(num){
+        var arr=[];
+        for (var i=0;i<num;i++){
+            arr.push([]);//有多少行就添加多少个小数组，小数组个数代表行数
+            for(var j=0;j<num;j++){
+                arr[i].push(0);//有多少列就向小数组中添加多少个标识符，一个小数组中有多少个标识符代表列数
+            }
+        }
+        return arr;
+    }
+    function createMap(){
+        var num=arr.length;
+        var awh=ca.width;
+        var wh=awh/num;
+        var b=wh/12;
+        var swh=wh-b;
+        for(var i=0;i<num;i++){
+            for(j=0;j<num;j++){
+                arr[i][j]===0?gc.fillStyle="rgb(255,192,203)":gc.fillStyle="rgb(0,224,244)";
+                gc.fillRect(j*wh+b/2,i*wh+b/2,swh,swh)
+            }
+        }
+    }
+    function clear(){
+        if (steps===-1){
+            return
+        }
+        for(var i=0;i<ex.length;i++){
+            for(j=0;j<ex[0].length;j++){
+                if ( ex[i][j]) {//如果ex[i][j]为0，则不对地图上的原有方块进行清除，防止清掉原有为1的地图方块
+                    arr[i+steps][j+x]=0;//清掉上一次的方块
+                }
+            }
+        }
+    }
+    function changeArr() {
+        for(var i=0;i<ex.length;i++){
+            for(j=0;j<ex[0].length;j++){
+                //清除上一次方块
+                // var res=i+steps-ex.length;
+                // if (steps>0&&res>=0){
+                //     arr[res][j+x]=0;//清掉上一次的方块
+                // }
+                if (arr[i+steps][j+x]===0){
+                    arr[i+steps][j+x]=ex[i][j];//再次创建方块
+                }
+            }
+        }
+        createMap();
+    }
+    function createModel(){
+        var num=Math.floor(Math.random()*7);//Math.random()不包括0，1
+        return model[num];
+        //  return model[1];
+    }
+    function auto(time) {
+        timer=setInterval(drop,time);
+    }
+    function drop(){
+        if (y_pz(ex)) {
+            clearRow();//检查是否满一行
+            over();//检查是否封顶
+            steps=-1;
+            ex=createModel();
+            x=middle;
+        }
+        clear();
+        steps++;
+        changeArr();
+    }
+    function play() {
+        var onOff=false;
+        document.addEventListener("keydown",function (event) {
+            var ev=event?event:window.event;
+            //alert(ev.keyCode)
+            switch (ev.keyCode) {
+                case 37:
+                    clear();
+                    if (!x_pz(-1,ex)&&!y_pz(ex)){//y方向发生碰撞代表它不可以再动了，则x就不能更改数值。
+                        x--;
+                    }
+                    changeArr();//保证每一步都有迹可循
+                    break;
+                case 39:
+                    clear();
+                    if (!x_pz(1,ex)&&!y_pz(ex)){
+                        x++;
+                    }
+                    changeArr();
+                    break;
+                case 38:
+                    clear();
+                    rotate();
+                    break;
+                case 40:
+                    if (!onOff){
+                        onOff=true;
+                        clearInterval(timer);
+                        auto(100);
+                    }
+                    break;
+            }
+        },false);
+        document.addEventListener("keyup",function (event) {
+            var ev=event?event:window.event;
+            if (ev.keyCode===40){
+                onOff=false;
+                clearInterval(timer);
+                auto(400);
+            }
+        },false)
+    }
+    function y_pz(ex) {
+        var next=ex.length+steps;//此方块底部的的下一格
+        if (next===arr.length) {
+            return true
+        }
+        var bottom=ex[ex.length-1];
+        for(var i=0;i<bottom.length;i++){
+                var num=ex.length-1;
+                while (ex[num][i]===0){
+                    num--;
+                }
+                //检测该列上从下到上第一个为1下方有没有方块
+                if (arr[num+1+steps][i+x]===1){
+                    return true;
+                }
+                // if (arr[next][j+x]===1&&arr[next-1][j+x]===1){
+                //     return true
+                // }
+        }
+        return false;
+    }
+    function x_pz(n,ex) {
+        //-1向左，1向右
+        if (n<0){
+            if (x<=0) {//方块到左边框且还想向左
+                return true
+            }
+            for(var i=0;i<ex.length;i++){
+             //  var left=ex[i][x];
+               var num_z=0;
+               while(ex[i][num_z]===0){
+                   num_z++;
+               }  //检测该行上从左到右第一个为1左方有没有方块
+               if (!arr[i+steps]||arr[i+steps][num_z+x-1]===1){
+                   return true
+               }
+            }
+        }
+        else{
+            if (x+ex[0].length>=arr[0].length) {
+                return true
+            }
+            for(var j=0;j<ex.length;j++){
+                var num_l=ex[0].length-1;
+                while(ex[j][num_l]===0){
+                    num_l--;
+                } //检测该行上从右到左第一个为1右方有没有方块
+                if (!arr[j+steps]||arr[j+steps][num_l+x+1]===1){
+                    return true
+                }
+            }
+        }
+        return false;
+    }
+    function rotate() {
+        var x=ex.length;
+        var y=ex[0].length;
+        var arr=[];
+        for (var i=0;i<y;i++){
+            arr.push([]);
+        }
+        for(var s=0;s<x;s++){
+            for (var j=0;j<y;j++){
+                 arr[j][ex.length-s-1]=ex[s][j];
+            }
+        }
+        if (x_pz(-1,arr)||x_pz(1,arr)||y_pz(arr)){ //改变后任一方向会发生碰撞，则代表不能改图形
+            return ;
+        }
+        ex=arr;
+    }
+    function clearRow(){
+        var row;
+        var data=[];
+        for(var t=0;t<arr[0].length;t++){
+            data.push(0)
+        }
+        for(var i=0;i<arr.length;i++){
+            row=true;//每一行刚开始都为true
+            for(var j=0;j<arr[0].length;j++){
+                if(arr[i][j]===0){
+                    row=false;
+                }
+            }
+            if (row){
+                arr.splice(i,1);
+                arr.unshift([].concat(data))//解除引用关系
+            }
+        }
+    }
+    function over(){
+        var num=0;
+        for(var i=0;i<arr.length;i++){
+            for(j=0;j<arr[0].length;j++){
+                if (arr[i][j]){
+                    num++;
+                    break;//continue是跳过这次循环下面的语句，直接开始下一次循环。
+                    //break是直接跳出整个(不加参数则跳过最近的父级循环)循环。
+                }
+            }
+        }
+        if (num===arr.length){
+            setTimeout(function () {
+                alert("结束");
+                arr=createArr(22);
+            },100);
+        }
+    }
+</script>
+</html>
